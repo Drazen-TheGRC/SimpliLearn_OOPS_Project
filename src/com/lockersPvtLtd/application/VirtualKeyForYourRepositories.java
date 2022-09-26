@@ -7,15 +7,15 @@ import java.util.regex.Pattern;
 
 public class VirtualKeyForYourRepositories {
 
-    static String directoryPath; //It is the path which changes as we navigate through file explorer
+    static String currentDirectoryPath; //It is the path which changes as we navigate through file explorer
     static String absoluteAppDirectoryPath; //It is the constant path provided by the user and can only be changed through main menu by selection of option “Change Path”.
 
-    public static String getDirectoryPath() {
-        return directoryPath;
+    public static String getCurrentDirectoryPath() {
+        return currentDirectoryPath;
     }
 
-    public static void setDirectoryPath(String directoryPath) {
-        VirtualKeyForYourRepositories.directoryPath = directoryPath;
+    public static void setCurrentDirectoryPath(String currentDirectoryPath) {
+        VirtualKeyForYourRepositories.currentDirectoryPath = currentDirectoryPath;
     }
 
     public static String getAbsoluteAppDirectoryPath() {
@@ -26,159 +26,283 @@ public class VirtualKeyForYourRepositories {
         VirtualKeyForYourRepositories.absoluteAppDirectoryPath = absoluteAppDirectoryPath;
     }
 
+
+
+
+
     // Other global variables
     static String appName = "Virtual Key For Your Repositories";
     static String developerName = "Drazen Drinic";
     static int consoleBoxWidth = 70; //Suggested minimum is 60
     static Scanner scanner = new Scanner(System.in);
 
+
+
     // Main method
     public static void main(String[] args) {
 
 
+        welcomeMessage();
+
+        try {
+            Thread.sleep( 3000);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
+
+        setWorkingDirectoryPath();
+        mainMenu();
 
 
-        Welcome();
-        SetWorkingDirectoryPath();
-        MainMenu();
 
 
 
     }
 
     //Welcome method is the first method to call it greats the user, and after it comes the SetWorkingDirectoryPath method
-    private static void Welcome(){
+    private static void welcomeMessage(){
         String firstLine = "[ Welcome ]";
         String developerLine = "Application Developer : " + developerName;
         String applicationLine = "Application Name: " + appName;
         String lastLine = "[ Next steps are below ]";
 
         System.out.println();
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
-        System.out.println(LineBuilderLeftAligned(consoleBoxWidth, developerLine, '|', ' '));
-        System.out.println(LineBuilderLeftAligned(consoleBoxWidth, applicationLine, '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, developerLine, '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, applicationLine, '|', ' '));
 
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
     }
 
     // SetWorkingDirectoryPath method comes after the Welcome method, and it sets the path for the user app directory
-    static void SetWorkingDirectoryPath() {
+    private static void setWorkingDirectoryPath() {
         String firstLine = "[ Setting Absolute Working Directory Path ]";
-        String userInputLine = ">>> Please enter your directory path here: ";
+        String userInputLine = "Please enter your absolute working directory path here: ";
         String lastLine = "[ Now we need to past or enter the path down below ]";
 
         System.out.println();
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, " Create a folder anywhere on your PC ", '|', ' '));
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, " Click on the folder icon in the address bar ", '|', ' '));
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, " Copy the address link ", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 1 > Create a folder anywhere on your PC ", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 2 > Click on the folder icon in the address bar ", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 3 > Copy the address link ", '|', ' '));
 
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
         System.out.println();
 
-        System.out.print("Please enter your absolute working directory path here: ");
+        //System.out.println(userInputLine); // Input in next line
+        System.out.print(userInputLine); // Input in same line
 
         String tempPath =scanner.next();
 
         System.out.println("");
 
+
         if(Pattern.matches("((\\/)+|(\\\\)+)", tempPath)) {
-            System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "[ Seams your input was invalid ]", '+', '-'));
-            System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "[ Check the instructions below and try again ]", '+', '-'));
-            SetWorkingDirectoryPath();
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Seams your input was invalid <<<", '+', '-'));
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Check the instructions below and try again <<<", '+', '-'));
+            setWorkingDirectoryPath();
         }else {
             if (new File(tempPath).exists() && new File(tempPath).isDirectory()){
-                setDirectoryPath(tempPath);
+                setCurrentDirectoryPath(tempPath);
                 setAbsoluteAppDirectoryPath(tempPath);
-                System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "[ Thanks for setting the absolute working directory path ]", '+', '-'));
-                System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "[ The path is: " + tempPath + " ]", '+', '-'));
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Thanks for setting the absolute working directory path <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The path is: " + tempPath + " <<<", '-', '-'));
             }else{
-                System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "[ Seams your input was invalid ]", '+', '-'));
-                System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "[ Check the instructions below and try again ]", '+', '-'));
-                SetWorkingDirectoryPath();
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Seams your input was invalid <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Check the instructions below and try again <<<", '-', '-'));
+                setWorkingDirectoryPath();
             }
         }
     }
 
 
-
-    // Main method is the third must call method, it provides the Main Menu from where everything starts
-    private static void MainMenu(){
+    // mainMenuMessage method
+    private static void mainMenuMessage(){
+        // Message
         String firstLine = "[ Main Menu ]";
-        String userInputLine = ">>> Please enter your choice here: ";
+        String userInputLine = "Please enter your choice here: ";
         String lastLine = "[ Please Enter Your Choice Below ]";
 
         System.out.println();
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
-        System.out.println(LineBuilderLeftAligned(consoleBoxWidth, "[1] File Explorer", '|', ' '));
-        System.out.println(LineBuilderLeftAligned(consoleBoxWidth, "[2] List of Files", '|', ' '));
-        System.out.println(LineBuilderLeftAligned(consoleBoxWidth, "[3] Actions for Files", '|', ' '));
-        System.out.println(LineBuilderLeftAligned(consoleBoxWidth, "[4] Update the Folder Path", '|', ' '));
-        System.out.println(LineBuilderLeftAligned(consoleBoxWidth, "[5] Exit", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[1] File Explorer", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[2] List of Files", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[3] Actions for Files", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[4] Update the Folder Path", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[5] Exit", '|', ' '));
 
-
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
         System.out.println();
 
-        System.out.print("Please enter your option: ");
+        //System.out.println(userInputLine); // Input in next line
+        System.out.print(userInputLine); // Input in same line
+    }
+    // mainMenuFunctionality that contains the message call too
+    private static void mainMenu(){
 
-        int x =scanner.nextInt();
+        //Min and max values for this
+        int min = 1;
+        int max = 5;
+        mainMenuMessage();
 
-        System.out.println("");
+        // Functionality
+        boolean optionValid = false;
 
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "[ Thanks For Your Input ]", '+', '-'));
+        int option = 0;
+
+        //Need to solve this issue in case if the entry is not a number
+        option = scanner.nextInt();
+
+        while (!optionValid){
+
+
+            if (option == 1 || option == 2 || option == 3 || option == 4 || option == 5){
+                System.out.println("");
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: " + option + " which is a valid option <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Thanks For Your Input <<<", '-', '-'));
+                //System.out.println("");
+                optionValid = true;
+            }else{
+                System.out.println("");
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: " + option + " which is an invalid option <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
+                //System.out.println("");
+
+                mainMenuMessage();
+            }
+        }
+
+        switch (option){
+            case 1:
+                filesExplorer();
+                break;
+            case 2:
+                mainMenu();
+                break;
+            case 3:
+                mainMenu();
+                break;
+            case 4:
+                mainMenu();
+                break;
+            case 5:
+                mainMenu();
+                break;
+        }
 
     }
 
+    //XXXXXXXXXXXXXXXXXXXXXXXXXX
+    //XXXXXXXXXXXXXXXXXXXXXXXXXX
+    int ScannerResult(int min, int max) {
+        System.out.print("\nPlease enter your option: ");
+        Scanner scc = new Scanner(System.in);
+        if(scc.hasNextInt()) {
+            int s = scc.nextInt();
+            if(s >= min && s <= max ) {
+                return s;
+            }else {
+                System.out.println("Option has to be in the limit of "+ min +" to "+ max +", Please try again.");
+                int a = ScannerResult(min,max);
+                return a;
+            }
+        }else {
+            System.out.println("Option has to be a number.");
+            int a = ScannerResult(min,max);
+            return a;
+        }
+    }
+
     // FilesExplorer method
-    private static void FilesExplorer(){
+    private static void filesExplorer(){
+
+        String firstLine = "[ File Explorer ]";
+        String userInputLine = "Please enter your choice here: ";
+        String lastLine = "[ Please Enter Your Choice Below ]";
+
+        System.out.println();
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+        File directoryPath = new File(absoluteAppDirectoryPath);
+
+        File filesList[] = directoryPath.listFiles();
+
+        int numbering = 1;
+        for (int i = 0; i < filesList.length; i++){
+            //System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(i+1)+"] "+ filesList[i].getName() +  " --> " + filesList[i].getAbsolutePath(), '|', ' '));
+            System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(i+1)+"] "+ filesList[i].getName() +  "", '|', ' '));
+            numbering++;
+        }
+
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " File Explorer", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " List of Files", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Actions for Files", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Update the Folder Path", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Exit", '|', ' '));
+
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println();
+
+        //System.out.println(userInputLine); // Input in next line
+        System.out.print(userInputLine); // Input in same line
+
+
+        boolean optionValid = false;
+
+        int option = 0;
+
+        //Need to solve this issue in case if the entry is not a number
+        option = scanner.nextInt();
 
     }
 
     // ListOfFiles
-    private static void ListOfFiles(){
+    private static void listOfFiles(){
 
     }
 
     // ActionsForFiles
-    private static void ActionsForFiles(){
+    private static void actionsForFiles(){
 
     }
 
     //UpdateTheDirectoryPath
-    private static void UpdateTheDirectoryPath(){
+    private static void updateTheDirectoryPath(){
 
     }
 
     // Goodbye method is called when we want to exit the program
-    private static void Goodbye(){
+    private static void goodbye(){
         String firstLine = "[ Goodbye ]";
         String lastLine = "***";
 
         System.out.println();
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "Thanks for trying my app!!!", '|', ' '));
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "See you next time!!!", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "Thanks for trying my app!!!", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "See you next time!!!", '|', ' '));
 
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(LineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
         //System.out.println();
     }
 
 
     // LineBuilder methods
-    private static String LineBuilderCenterAligned(int lineLength, String mainString, char firstAndLastPlaceHolder, char mainPlaceHolder){
+    private static String lineBuilderCenterAligned(int lineLength, String mainString, char firstAndLastPlaceHolder, char mainPlaceHolder){
         String line = "";
         String prefix = "";
         String postfix = "";
@@ -201,7 +325,7 @@ public class VirtualKeyForYourRepositories {
 
         return line;
     }
-    private static String LineBuilderLeftAligned(int lineLength, String mainString, char firstAndLastPlaceHolder, char mainPlaceHolder){
+    private static String lineBuilderLeftAligned(int lineLength, String mainString, char firstAndLastPlaceHolder, char mainPlaceHolder){
         String line = "";
         String prefix = "";
         String postfix = "";
@@ -226,7 +350,7 @@ public class VirtualKeyForYourRepositories {
     }
 
     //Old methods not in use anymore
-    private static void GoodbyeOldMethod(){
+    private static void goodbyeOldMethod(){
         // Initial setup to make the Goodbye box
         String firstLine = "-------------------------[Goodbye]--------------------------";
         String thankYouLine = "Thanks for trying my app!!!";
@@ -271,7 +395,7 @@ public class VirtualKeyForYourRepositories {
 
         //System.out.println(String.format("| %20s %20s |", "Thanks", ""));
     }
-    private static void MainMenuOldMethod(){
+    private static void mainMenuOldMethod(){
         String firstLine = "--------------------------------[Main Menu]--------------------------------";
         String developerLine = "Application Developer : " + developerName;
         String applicationLine = "Application Name: " + appName;
