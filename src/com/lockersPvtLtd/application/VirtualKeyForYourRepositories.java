@@ -32,8 +32,10 @@ public class VirtualKeyForYourRepositories {
 
     // Other global variables
     static String appName = "Virtual Key For Your Repositories";
+    static String gitHubAppLink = "https://github.com/Drazen-BBG/Virtual_Key_for_Your_Repositories-Assessment-Project_1";
     static String developerName = "Drazen Drinic";
-    static int consoleBoxWidth = 70; //Suggested minimum is 60
+    static String developerLinkedin = "https://www.linkedin.com/in/drazendrinic/";
+    static int consoleBoxWidth = 90; //Suggested minimum is 90
     static Scanner scanner = new Scanner(System.in);
 
 
@@ -45,12 +47,13 @@ public class VirtualKeyForYourRepositories {
         welcomeMessage();
 
         try {
-            Thread.sleep( 3000);
+            Thread.sleep( 5000);
         } catch (InterruptedException ie) {
             Thread.currentThread().interrupt();
         }
 
         setWorkingDirectoryPath();
+
         mainMenu();
 
 
@@ -64,6 +67,7 @@ public class VirtualKeyForYourRepositories {
         String firstLine = "[ Welcome ]";
         String developerLine = "Application Developer : " + developerName;
         String applicationLine = "Application Name: " + appName;
+        String gitHubLine = "Application GitHub: ";
         String lastLine = "[ Next steps are below ]";
 
         System.out.println();
@@ -72,24 +76,55 @@ public class VirtualKeyForYourRepositories {
 
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, developerLine, '|', ' '));
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, applicationLine, '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, gitHubLine, '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, gitHubAppLink, '|', ' '));
 
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
     }
 
+    private static void developerInfo(){
+        String firstLine = "[ Developer Info ]";
+        String developerName = "App Developer : " + VirtualKeyForYourRepositories.developerName;
+        String developerLinkedin = "LinkedIn: " + VirtualKeyForYourRepositories.developerLinkedin;
+        String gitHubLine = "Application GitHub: ";
+        String lastLine = "[ Main Menu is coming in 5 seconds ]";
+
+        System.out.println();
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, developerName, '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, developerLinkedin, '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, gitHubLine, '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, gitHubAppLink, '|', ' '));
+
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+
+        // Add code to offer an option to go to main menu
+        try {
+            Thread.sleep( 5000);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
+
+        mainMenu();
+    }
+
     // SetWorkingDirectoryPath method comes after the Welcome method, and it sets the path for the user app directory
     private static void setWorkingDirectoryPath() {
         String firstLine = "[ Setting Absolute Working Directory Path ]";
-        String userInputLine = "Please enter your absolute working directory path here: ";
+        String userInputLine = "Please paste or enter your absolute working directory path here: ";
         String lastLine = "[ Now we need to past or enter the path down below ]";
 
         System.out.println();
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 1 > Create a folder anywhere on your PC ", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 2 > Click on the folder icon in the address bar ", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 3 > Copy the address link ", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 1 > Create a folder on your PC and give it one word name", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 2 > Open the folder and click on the folder icon in the address bar ", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 3 > Copy the address link so you can past it in the next step", '|', ' '));
 
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
@@ -134,10 +169,10 @@ public class VirtualKeyForYourRepositories {
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[1] File Explorer", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[2] List of Files", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[3] Actions for Files", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[4] Update the Folder Path", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[5] Exit", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[2] Update working directory path", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[3] Developer Info", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[4] Restart App", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[5] Exit App", '|', ' '));
 
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
@@ -186,16 +221,16 @@ public class VirtualKeyForYourRepositories {
                 filesExplorer();
                 break;
             case 2:
-                mainMenu();
+                //updateWorkingDirectoryPath();
                 break;
             case 3:
-                mainMenu();
+                developerInfo();
                 break;
             case 4:
-                mainMenu();
+                //restartApp();
                 break;
             case 5:
-                mainMenu();
+                //exitApp();
                 break;
         }
 
@@ -237,19 +272,28 @@ public class VirtualKeyForYourRepositories {
 
         File filesList[] = directoryPath.listFiles();
 
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Select a file for details and more options:", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
         int numbering = 1;
         for (int i = 0; i < filesList.length; i++){
             //System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(i+1)+"] "+ filesList[i].getName() +  " --> " + filesList[i].getAbsolutePath(), '|', ' '));
             System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(i+1)+"] "+ filesList[i].getName() +  "", '|', ' '));
             numbering++;
         }
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "General File Explorer options:", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " File Explorer", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " List of Files", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Actions for Files", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Update the Folder Path", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Exit", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Go to Main Menu", '|', ' '));
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Create a file", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Sort file ascending", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Sort file descending", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Search folder", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Exit App", '|', ' '));
 
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
