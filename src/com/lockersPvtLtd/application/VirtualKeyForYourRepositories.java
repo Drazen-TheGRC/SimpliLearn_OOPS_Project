@@ -198,7 +198,7 @@ public class VirtualKeyForYourRepositories {
 
         Scanner scanner = new Scanner(System.in);
         String tempPath =scanner.next();
-        scanner.close();
+        //scanner.close(); This was causing issues
 
         System.out.println("");
 
@@ -230,7 +230,7 @@ public class VirtualKeyForYourRepositories {
         String userInputString;
         Scanner scanner = new Scanner(System.in);
         userInputString = scanner.next();
-        scanner.close();
+        //scanner.close(); This was causing issues
 
         return userInputString;
     }
@@ -263,14 +263,14 @@ public class VirtualKeyForYourRepositories {
             if (isInRange(userInputInteger, min, max)){
                 // Message for valid input
                 System.out.println("");
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: " + userInputInteger + " which is a valid option <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: > " + userInputInteger + " < which is a valid option <<<", '-', '-'));
                 System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Thanks For Your Input <<<", '-', '-'));
                 //System.out.println("");
                 return userInputInteger;
             }else{
                 // Message for wrong input
                 System.out.println("");
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: " + userInputInteger + " which is an invalid option <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: > " + userInputInteger + " < which is an invalid option <<<", '-', '-'));
                 System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
                 //System.out.println("");
 
@@ -281,7 +281,7 @@ public class VirtualKeyForYourRepositories {
         }else{
             // Message for wrong input
             System.out.println("");
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: " + userInputString + " which is an invalid option <<<", '-', '-'));
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: > " + userInputString + " < which is an invalid option <<<", '-', '-'));
             System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
             //System.out.println("");
 
