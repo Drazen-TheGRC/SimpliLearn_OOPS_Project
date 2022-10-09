@@ -48,6 +48,7 @@ public class VirtualKeyForYourRepositories {
         waitSeconds(5);
         setAppDirectoryPath();
         mainMenu();
+        goodbyeMessage();
     }
 
 
@@ -420,36 +421,39 @@ public class VirtualKeyForYourRepositories {
         String userInputLine = "Please enter your choice here: ";
         String lastLine = "[ Please Enter Your Choice Below ]";
 
+        int numbering = 0;
+
         System.out.println();
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-
-        File directoryPath = new File(absoluteAppDirectoryPath);
-
-        File filesList[] = directoryPath.listFiles();
-
-
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Select a file for details and more options:", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-
-        int numbering = 1;
-        for (int i = 0; i < filesList.length; i++){
-            //System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(i+1)+"] "+ filesList[i].getName() +  " --> " + filesList[i].getAbsolutePath(), '|', ' '));
-            System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(i+1)+"] "+ filesList[i].getName() +  "", '|', ' '));
-            numbering++;
-        }
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "General File Explorer options:", '|', ' '));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Go to Main Menu", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Go to Main Menu", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Create a file", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Sort file ascending", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Sort file descending", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Search folder", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Exit App", '|', ' '));
 
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Create a file", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Sort file ascending", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Sort file descending", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Search folder", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering++)+"]" + " Exit App", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+
+        File directoryPath = new File(absoluteAppDirectoryPath);
+        File filesList[] = directoryPath.listFiles();
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Select a file for details and more options:", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+
+        int loopRepetitions = 0;
+        for (int i = 0; i < filesList.length; i++){
+            numbering++;
+            //System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(i+1)+"] "+ filesList[i].getName() +  " --> " + filesList[i].getAbsolutePath(), '|', ' '));
+            System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(numbering)+"] "+ filesList[i].getName() +  "", '|', ' '));
+            loopRepetitions++;
+        }
 
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
@@ -521,7 +525,69 @@ public class VirtualKeyForYourRepositories {
         // if selection is folder than list it
 
 
+        int min = 1;
+        int max = numbering;
+
+        int option;
+
+        //System.out.println(numbering);
+        //System.out.println(loopRepetitions);
+
+        option = userInput(min, max);
+
+        if (option > (numbering - loopRepetitions)){
+
+            //Call showFileDetails() this method needs to show details for selected file name, path, size option to delete it or edit it or go back to filExplorer or to main menu
+            fileDetails(absoluteAppDirectoryPath, calculateIndex(option, numbering, loopRepetitions));
+        }
+
+        switch (option){
+            case 1:
+                mainMenu();
+                break;
+            case 2:
+                //Create a file
+                break;
+            case 3:
+                developerInfo();
+                break;
+            case 4:
+                //Sort ascending
+                break;
+            case 5:
+                //Sort descending
+                break;
+            case 6:
+                //exitApp
+                break;
+        }
+
+
+
+
+
+
+
     }
+
+    private static int calculateIndex(int option, int numbering, int loopRepetitions){
+        int indexToReturn;
+        indexToReturn = (option - (numbering - loopRepetitions))-1;
+        return indexToReturn;
+    }
+    private static void fileDetails(String path, int index){
+        File directoryPath = new File(absoluteAppDirectoryPath);
+        File filesList[] = directoryPath.listFiles();
+
+        //need index
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, filesList[index].getName() +  "", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, filesList[index].getAbsolutePath() +  "", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, filesList[index].getAbsolutePath() +  "", '|', ' '));
+
+    }
+
+
 
     //UpdateTheDirectoryPath
     private static void updateTheDirectoryPath(){
