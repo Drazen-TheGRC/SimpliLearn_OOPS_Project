@@ -52,7 +52,7 @@ public class VirtualKeyForYourRepositories {
 
         //Running the app
         welcomeMessage();
-        waitSeconds(5);
+        waitSeconds(3);
         setAppDirectoryPath();
         mainMenu();
 
@@ -508,7 +508,9 @@ public class VirtualKeyForYourRepositories {
                 goToParentDirectory();
                 break;
             case 3:
-                //Create a file
+                crateFile();
+                waitSeconds(2);
+                fileExplorer();
                 break;
             case 4:
                 //Sort file ascending;
@@ -550,6 +552,67 @@ public class VirtualKeyForYourRepositories {
     //File details methods for the selection of files in the fileExplorer
 
 
+    private static void createFileMessage(){
+        //Message and console box
+        String firstLine = "[ Create File ]";
+        String userInputLine = "Please enter file name here: ";
+        String lastLine = "[ Please Enter The File Name Below ]";
+
+        System.out.println();
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 1 > You will need to know the name for your file and its extension", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 2 > Write your file name in this format <fileName.extension>", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Example > MyTextFile.txt", '|', ' '));
+
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println();
+
+        //System.out.println(userInputLine); // Input in next line
+        System.out.print(userInputLine); // Input in same line
+    }
+    private static void crateFile(){
+
+        createFileMessage();
+
+        //User input
+        Scanner scanner = new Scanner(System.in);
+        String fileName =scanner.next();
+
+        try {
+            File file = new File(currentDirectoryPath, fileName);
+            if(!file.exists()) {
+                if(file.createNewFile()) {
+                    System.out.println();
+                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Your file: " +  file.getName() + " was created. <<<", '-', '-'));
+                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The file path is: " + file.getAbsolutePath() + " <<<", '-', '-'));
+                    waitSeconds(2);
+                    fileExplorer();
+                }else {
+                    //If you can't create file
+                    System.out.println();
+                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Something went wrong!!! The file was not created. <<<", '-', '-'));
+                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
+                    crateFile();
+                }
+            }else {
+                //if already exists
+                System.out.println();
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> File with this name already exists. <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again with a different name <<<", '-', '-'));
+                crateFile();
+            }
+        }
+        catch (IOException e){
+            e.printStackTrace();
+            crateFile();
+        }
+    }
+
+
+
 
     private static void fileDetails(File fileToProcess){
         Path path = Paths.get(fileToProcess.getAbsolutePath());
@@ -558,6 +621,7 @@ public class VirtualKeyForYourRepositories {
             fileSize = Files.size(path);
         }catch (IOException e){
             e.printStackTrace();
+            //Make a code to try again
         }
 
 
