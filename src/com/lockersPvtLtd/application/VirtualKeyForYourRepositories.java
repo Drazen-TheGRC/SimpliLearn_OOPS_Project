@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -421,6 +422,7 @@ public class VirtualKeyForYourRepositories {
 
 
 
+
     //This is actually old filesExplorer
     private static void fileExplorerMessage(){
 
@@ -466,10 +468,8 @@ public class VirtualKeyForYourRepositories {
                 // Check if the file is a directory
                 if (file.isDirectory()){
                     System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " " + file.getName() + " [Folder]", '|', ' '));
-
                 }else {
                     System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " " + file.getName(), '|', ' '));
-
                 }
             }
         }
@@ -483,14 +483,9 @@ public class VirtualKeyForYourRepositories {
 
         //System.out.println(userInputLine); // Input in next line
         System.out.print(userInputLine); // Input in same line
-        System.out.println(numberingInFileExplorer);
-        System.out.println(loopIterations);
-
-
 
         // Down below, we need user input and functionality
         // if selection is folder than list it
-
 
         int min = 1;
         int max = numberingInFileExplorer;
@@ -540,18 +535,75 @@ public class VirtualKeyForYourRepositories {
                 fileDetails(fileToProcess);
             }
         }
-
-
-
-
-
     }
 
 
 
     //File details methods for the selection of files in the fileExplorer
 
+    private static void fileDetails(File fileToProcess){
+        Path path = Paths.get(fileToProcess.getAbsolutePath());
+        double fileSize = 0;
+        try {
+            fileSize = Files.size(path);
+        }catch (IOException e){
+            e.printStackTrace();
+            //Make a code to try again
+        }
+        double fileSizeInKiloBytes = fileSize/2024;
 
+        //creating the console look
+        String firstLine = "[ File details: " + fileToProcess.getName() + " ]";
+        String userInputLine = "Please enter your choice here: ";
+        String lastLine = "[ Please Enter Your Choice Below ]";
+
+
+        System.out.println();
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File name: " + fileToProcess.getName() +  "", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File path: " + fileToProcess.getAbsolutePath() +  "", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File size: " + String.format("%.5f", fileSizeInKiloBytes)  + " kilobytes" , '|', ' '));
+
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[1]" + " Go to Main Menu", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[2]" + " Go to parent directory", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[3]" + " Delete file", '|', ' '));
+
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println();
+
+        //System.out.println(userInputLine); // Input in next line
+        System.out.print(userInputLine); // Input in same line
+
+
+        //Make code for file details functionality include go to parent - go back, delete
+        int min = 1;
+        int max = 3;
+
+        int option;
+
+        //Getting validated option from user
+        option = userInput(min, max);
+
+        switch (option) {
+            case 1:
+                mainMenu();
+                break;
+            case 2:
+                goToParentDirectory();
+                break;
+            case 3:
+                deleteFile(fileToProcess);
+                waitSeconds(2);
+                fileExplorer();
+                break;
+        }
+
+    }
     private static void createFileMessage(){
         //Message and console box
         String firstLine = "[ Create File ]";
@@ -610,42 +662,17 @@ public class VirtualKeyForYourRepositories {
             crateFile();
         }
     }
-
-
-
-
-    private static void fileDetails(File fileToProcess){
-        Path path = Paths.get(fileToProcess.getAbsolutePath());
-        double fileSize = 0;
-        try {
-            fileSize = Files.size(path);
-        }catch (IOException e){
-            e.printStackTrace();
-            //Make a code to try again
+    private static void deleteFile(File fileToProcess){
+        File fileToDelete = new File(fileToProcess.getAbsolutePath());
+        if (fileToDelete.delete()){
+            System.out.println();
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Your file: " +  fileToProcess.getName() + " was deleted. <<<", '-', '-'));
+        }else {
+            System.out.println();
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Your file: " +  fileToProcess.getName() + " was NOT created. <<<", '-', '-'));
         }
-
-
-        //creating the console look
-        String firstLine = "[ File details: " + fileToProcess.getName() + " ]";
-        String userInputLine = "Please enter your choice here: ";
-        String lastLine = "[ Please Enter Your Choice Below ]";
-
-
-        System.out.println();
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File name: " + fileToProcess.getName() +  "", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File path: " + fileToProcess.getAbsolutePath() +  "", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File size: " + Double.toString(fileSize) +  "bytes or " + Double.toString(fileSize/1024) + " kilobytes" , '|', ' '));
-
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
-        System.out.println();
-
-
-        //Make code for file details functionality include go to parent - go back, delete
     }
+
 
     private static void goToParentDirectory(){
         Path path = Paths.get(currentDirectoryPath);
