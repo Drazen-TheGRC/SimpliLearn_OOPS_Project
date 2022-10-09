@@ -432,21 +432,20 @@ public class VirtualKeyForYourRepositories {
         //Restarting the numbering on each fileExplorer call
         numberingInFileExplorer = 0;
 
-
         //creating the console look
         String firstLine = "[ File Explorer ]";
         String userInputLine = "Please enter your choice here: ";
         String lastLine = "[ Please Enter Your Choice Below ]";
 
+        //Top of the box in the console
         System.out.println();
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
-
-
+        //Main content of the box in the console
+        //General File Explorer options
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "General File Explorer options:", '|', ' '));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Go to Main Menu", '|', ' '));
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Go to parent directory", '|', ' '));
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Create a file", '|', ' '));
@@ -454,14 +453,13 @@ public class VirtualKeyForYourRepositories {
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Sort file descending", '|', ' '));
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Search folder", '|', ' '));
 
+        //File
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Select a file for details and more options:", '|', ' '));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
         //Convert this below in a method if possible
-
         int loopIterations = 0;
-
         if (getFileListFromFolder(currentDirectoryPath) != null && getFileListFromFolder(currentDirectoryPath).length > 0){
             for (File file : getFileListFromFolder(currentDirectoryPath)){
                 ++loopIterations;
@@ -476,16 +474,17 @@ public class VirtualKeyForYourRepositories {
             }
         }
 
+        //Bottom of the box in the console
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
         System.out.println();
+
+
 
         //System.out.println(userInputLine); // Input in next line
         System.out.print(userInputLine); // Input in same line
         System.out.println(numberingInFileExplorer);
         System.out.println(loopIterations);
-
-
 
 
 
@@ -498,17 +497,15 @@ public class VirtualKeyForYourRepositories {
 
         int option;
 
-
         option = userInput(min, max);
 
-
-
+        //Switch General menu
         switch (option){
             case 1:
                 mainMenu();
                 break;
             case 2:
-                //Go to parent directory
+                goToParentDirectory();
                 break;
             case 3:
                 //Create a file
@@ -524,6 +521,7 @@ public class VirtualKeyForYourRepositories {
                 break;
         }
 
+        //Files and Folders Menu
         //workflow fo options related to files
         if (option>6 && option<=numberingInFileExplorer){
             //Need to code the algorithm how to select the file or folder related to the option
@@ -535,7 +533,7 @@ public class VirtualKeyForYourRepositories {
                 //setCurrentDirectoryPath
                 //Call filesExplorer for that folder
                 setCurrentDirectoryPath(fileToProcess.getPath());
-                filesExplorer();
+                goIntoDirectory();
             }else {
                 fileDetails(fileToProcess);
             }
@@ -550,22 +548,8 @@ public class VirtualKeyForYourRepositories {
 
 
     //File details methods for the selection of files in the fileExplorer
-    private static int calculateIndex(int option, int numbering, int loopRepetitions){
-        int indexToReturn;
-        indexToReturn = (option - (numbering - loopRepetitions))-1;
-        return indexToReturn;
-    }
-    private static void fileDetailsOld(String path, int index){
-        File directoryPath = new File(absoluteAppDirectoryPath);
-        File filesList[] = directoryPath.listFiles();
 
-        //need index
 
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, filesList[index].getName() +  "", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, filesList[index].getAbsolutePath() +  "", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, filesList[index].getAbsolutePath() +  "", '|', ' '));
-
-    }
 
     private static void fileDetails(File fileToProcess){
         Path path = Paths.get(fileToProcess.getAbsolutePath());
@@ -594,6 +578,21 @@ public class VirtualKeyForYourRepositories {
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
         System.out.println();
+
+
+        //Make code for file details functionality include go to parent - go back, delete
+    }
+
+    private static void goToParentDirectory(){
+        Path path = Paths.get(currentDirectoryPath);
+        Path parentPath = path.getParent();
+        setCurrentDirectoryPath(parentPath.toString());
+        fileExplorer();
+    }
+
+    private static void goIntoDirectory(){
+        //We need to change the currentDirectoryPath before calling this method, since this method is just calling the fileExplorer
+        fileExplorer();
     }
 
 
@@ -671,7 +670,7 @@ public class VirtualKeyForYourRepositories {
 
 
     }
-    private static void filesExplorer(){
+    private static void filesExplorerOld(){
         String firstLine = "[ File Explorer ]";
         String userInputLine = "Please enter your choice here: ";
         String lastLine = "[ Please Enter Your Choice Below ]";
@@ -716,6 +715,22 @@ public class VirtualKeyForYourRepositories {
 
         //System.out.println(userInputLine); // Input in next line
         System.out.print(userInputLine); // Input in same line
+    }
+    private static void fileDetailsOld(String path, int index){
+        File directoryPath = new File(absoluteAppDirectoryPath);
+        File filesList[] = directoryPath.listFiles();
+
+        //need index
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, filesList[index].getName() +  "", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, filesList[index].getAbsolutePath() +  "", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, filesList[index].getAbsolutePath() +  "", '|', ' '));
+
+    }
+    private static int calculateIndexOldStuff(int option, int numbering, int loopRepetitions){
+        int indexToReturn;
+        indexToReturn = (option - (numbering - loopRepetitions))-1;
+        return indexToReturn;
     }
 
 
