@@ -12,7 +12,7 @@ public class VirtualKeyForYourRepositories {
     static String absoluteAppDirectoryPath; //It is the constant path provided by the user and can only be changed through main menu by selection of option “Change Path”.
     // Other global variables
     static String appName = "Virtual Key For Your Repositories";
-    static String gitHubAppLink = "https://github.com/Drazen-BBG/Virtual_Key_for_Your_Repositories-Assessment-Project_1";
+    static String gitHubAppLink = "https://github.com/Drazen-BBG/SimpliLearn_OOPS_Project";
     static String developerName = "Drazen Drinic";
     static String developerLinkedin = "https://www.linkedin.com/in/drazendrinic/";
     static int consoleBoxWidth = 90; //Suggested minimum is 90
@@ -32,14 +32,9 @@ public class VirtualKeyForYourRepositories {
 
 
 
-
-
-
     // Main method
     public static void main(String[] args) {
-
         startApp();
-
     }
 
     private static void startApp(){
@@ -146,7 +141,6 @@ public class VirtualKeyForYourRepositories {
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
         //System.out.println();
     }
-
     private static void developerInfo(){
         String firstLine = "[ Developer Info ]";
         String developerName = "App Developer : " + VirtualKeyForYourRepositories.developerName;
@@ -171,8 +165,8 @@ public class VirtualKeyForYourRepositories {
         mainMenu();
     }
 
-    // SetWorkingDirectoryPath method comes after the Welcome method, and it sets the path for the user app directory
 
+    // SetWorkingDirectoryPath method comes after the Welcome method, and it sets the path for the user app directory
     private static void setAppDirectoryPathMessage(){
         String firstLine = "[ Setting Absolute Working Directory Path ]";
         String userInputLine = "Please paste or enter your absolute working directory path here: ";
@@ -220,10 +214,6 @@ public class VirtualKeyForYourRepositories {
             }
         }
     }
-
-
-
-
     private static void updateAppDirectoryPathMessage(){
         String firstLine = "[ Updating Absolute Working Directory Path ]";
         String userInputLine = "Please paste or enter your absolute working directory path here: ";
@@ -271,10 +261,6 @@ public class VirtualKeyForYourRepositories {
             }
         }
     }
-
-
-
-
 
 
 
@@ -388,7 +374,7 @@ public class VirtualKeyForYourRepositories {
 
         switch (option){
             case 1:
-                filesExplorer();
+                fileExplorer();
                 break;
             case 2:
                 updateAppDirectoryPath();
@@ -414,8 +400,7 @@ public class VirtualKeyForYourRepositories {
         return filesList;
     }
 
-
-
+    //This is actually old filesExplorer
     private static void filesExplorerMessage(){
         String firstLine = "[ File Explorer ]";
         String userInputLine = "Please enter your choice here: ";
@@ -464,7 +449,7 @@ public class VirtualKeyForYourRepositories {
     }
 
     // FilesExplorer method
-    private static void filesExplorer(){
+    private static void fileExplorer(){
 
         String firstLine = "[ File Explorer ]";
         String userInputLine = "Please enter your choice here: ";
@@ -535,11 +520,7 @@ public class VirtualKeyForYourRepositories {
 
         option = userInput(min, max);
 
-        if (option > (numbering - loopRepetitions)){
 
-            //Call showFileDetails() this method needs to show details for selected file name, path, size option to delete it or edit it or go back to filExplorer or to main menu
-            fileDetails(absoluteAppDirectoryPath, calculateIndex(option, numbering, loopRepetitions));
-        }
 
         switch (option){
             case 1:
@@ -586,16 +567,6 @@ public class VirtualKeyForYourRepositories {
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, filesList[index].getAbsolutePath() +  "", '|', ' '));
 
     }
-
-
-
-    //UpdateTheDirectoryPath
-    private static void updateTheDirectoryPath(){
-        // I will need it if I decide to have an option for going through folders
-    }
-
-
-
 
 
 
