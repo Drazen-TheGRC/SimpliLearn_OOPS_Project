@@ -2,6 +2,10 @@ package com.lockersPvtLtd.application;
 
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -17,6 +21,7 @@ public class VirtualKeyForYourRepositories {
     static String developerName = "Drazen Drinic";
     static String developerLinkedin = "https://www.linkedin.com/in/drazendrinic/";
     static int consoleBoxWidth = 90; //Suggested minimum is 90
+    static int numberingInFileExplorer = 0; //
 
     //Path getters and setters
     public static String getCurrentDirectoryPath() {
@@ -424,6 +429,11 @@ public class VirtualKeyForYourRepositories {
     // FilesExplorer method
     private static void fileExplorer(){
 
+        //Restarting the numbering on each fileExplorer call
+        numberingInFileExplorer = 0;
+
+
+        //creating the console look
         String firstLine = "[ File Explorer ]";
         String userInputLine = "Please enter your choice here: ";
         String lastLine = "[ Please Enter Your Choice Below ]";
@@ -432,17 +442,17 @@ public class VirtualKeyForYourRepositories {
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
-        int numbering = 0;
+
 
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "General File Explorer options:", '|', ' '));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Go to Main Menu", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Go to parent directory", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Create a file", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Sort file ascending", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Sort file descending", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Search folder", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Go to Main Menu", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Go to parent directory", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Create a file", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Sort file ascending", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Sort file descending", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Search folder", '|', ' '));
 
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Select a file for details and more options:", '|', ' '));
@@ -454,13 +464,13 @@ public class VirtualKeyForYourRepositories {
 
         if (getFileListFromFolder(currentDirectoryPath) != null && getFileListFromFolder(currentDirectoryPath).length > 0){
             for (File file : getFileListFromFolder(currentDirectoryPath)){
-                loopIterations++;
+                ++loopIterations;
                 // Check if the file is a directory
                 if (file.isDirectory()){
-                    System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " " + file.getName() + " [Folder]", '|', ' '));
+                    System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " " + file.getName() + " [Folder]", '|', ' '));
 
                 }else {
-                    System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " " + file.getName(), '|', ' '));
+                    System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " " + file.getName(), '|', ' '));
 
                 }
             }
@@ -472,7 +482,7 @@ public class VirtualKeyForYourRepositories {
 
         //System.out.println(userInputLine); // Input in next line
         System.out.print(userInputLine); // Input in same line
-        System.out.println(numbering);
+        System.out.println(numberingInFileExplorer);
         System.out.println(loopIterations);
 
 
@@ -484,7 +494,7 @@ public class VirtualKeyForYourRepositories {
 
 
         int min = 1;
-        int max = numbering;
+        int max = numberingInFileExplorer;
 
         int option;
 
@@ -498,39 +508,54 @@ public class VirtualKeyForYourRepositories {
                 mainMenu();
                 break;
             case 2:
-                //Create a file
+                //Go to parent directory
                 break;
             case 3:
                 //Create a file
                 break;
             case 4:
-                developerInfo();
+                //Sort file ascending;
                 break;
             case 5:
-                //Sort ascending
+                //Sort file descending
                 break;
             case 6:
-                //Sort descending
+                //Search folder
                 break;
-            case 7:
-                //exitApp
-                break;
+        }
+
+        //workflow fo options related to files
+        if (option>6 && option<=numberingInFileExplorer){
+            //Need to code the algorithm how to select the file or folder related to the option
+            File fileToProcess = getFileListFromFolder(currentDirectoryPath)[(option-(numberingInFileExplorer-loopIterations))-1];
+
+            //Code direction depending on option, if the option relates to a folder or to a file
+            if (fileToProcess.isDirectory()){
+                //If option selected is a folder
+                //setCurrentDirectoryPath
+                //Call filesExplorer for that folder
+                setCurrentDirectoryPath(fileToProcess.getPath());
+                filesExplorer();
+            }else {
+                fileDetails(fileToProcess);
+            }
         }
 
 
 
 
 
-
-
     }
 
+
+
+    //File details methods for the selection of files in the fileExplorer
     private static int calculateIndex(int option, int numbering, int loopRepetitions){
         int indexToReturn;
         indexToReturn = (option - (numbering - loopRepetitions))-1;
         return indexToReturn;
     }
-    private static void fileDetails(String path, int index){
+    private static void fileDetailsOld(String path, int index){
         File directoryPath = new File(absoluteAppDirectoryPath);
         File filesList[] = directoryPath.listFiles();
 
@@ -540,6 +565,35 @@ public class VirtualKeyForYourRepositories {
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, filesList[index].getAbsolutePath() +  "", '|', ' '));
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, filesList[index].getAbsolutePath() +  "", '|', ' '));
 
+    }
+
+    private static void fileDetails(File fileToProcess){
+        Path path = Paths.get(fileToProcess.getAbsolutePath());
+        double fileSize = 0;
+        try {
+            fileSize = Files.size(path);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+
+        //creating the console look
+        String firstLine = "[ File details: " + fileToProcess.getName() + " ]";
+        String userInputLine = "Please enter your choice here: ";
+        String lastLine = "[ Please Enter Your Choice Below ]";
+
+
+        System.out.println();
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File name: " + fileToProcess.getName() +  "", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File path: " + fileToProcess.getAbsolutePath() +  "", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File size: " + Double.toString(fileSize) +  "bytes or " + Double.toString(fileSize/1024) + " kilobytes" , '|', ' '));
+
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println();
     }
 
 
