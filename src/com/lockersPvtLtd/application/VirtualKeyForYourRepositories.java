@@ -223,6 +223,62 @@ public class VirtualKeyForYourRepositories {
 
 
 
+    private static void updateAppDirectoryPathMessage(){
+        String firstLine = "[ Updating Absolute Working Directory Path ]";
+        String userInputLine = "Please paste or enter your absolute working directory path here: ";
+        String lastLine = "[ Now we need to past or enter the path down below ]";
+
+        System.out.println();
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 1 > Find a folder on your PC you want to make app directory", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 2 > Open the folder and click on the folder icon in the address bar ", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 3 > Copy the address link so you can past it in the next step", '|', ' '));
+
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println();
+
+        //System.out.println(userInputLine); // Input in next line
+        System.out.print(userInputLine); // Input in same line
+    }
+    private static void updateAppDirectoryPath() {
+
+        updateAppDirectoryPathMessage();
+
+        Scanner scanner = new Scanner(System.in);
+        String tempPath =scanner.next();
+        //scanner.close(); This was causing issues
+
+        System.out.println("");
+
+        if(Pattern.matches("((\\/)+|(\\\\)+)", tempPath)) {
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Seams your input was invalid <<<", '+', '-'));
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Check the instructions below and try again <<<", '+', '-'));
+            setAppDirectoryPath();
+        }else {
+            if (new File(tempPath).exists() && new File(tempPath).isDirectory()){
+                setCurrentDirectoryPath(tempPath);
+                setAbsoluteAppDirectoryPath(tempPath);
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Thanks for updating the absolute working directory path <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The path is: " + tempPath + " <<<", '-', '-'));
+            }else{
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Seams your input was invalid <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Check the instructions below and try again <<<", '-', '-'));
+                setAppDirectoryPath();
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
     // User input methods to take input and validate input
     // For this to work every other method calling those methods have to have min and max values
 
@@ -274,7 +330,7 @@ public class VirtualKeyForYourRepositories {
                 System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
                 //System.out.println("");
 
-                mainMenuMessage();
+                mainMenuMessage(); //Need to pass this method as a parameter, so it can dynamically change depending on who is calling the userInput()
                 userInputInteger = userInput(min, max);
                 return userInputInteger;
             }
@@ -285,7 +341,7 @@ public class VirtualKeyForYourRepositories {
             System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
             //System.out.println("");
 
-            mainMenuMessage();
+            mainMenuMessage(); //Need to pass this method as a parameter, so it can dynamically change depending on who is calling the userInput()
             userInputInteger = userInput(min, max);
             return userInputInteger;
         }
@@ -334,7 +390,8 @@ public class VirtualKeyForYourRepositories {
                 filesExplorer();
                 break;
             case 2:
-                //updateWorkingDirectoryPath();
+                updateAppDirectoryPath();
+                mainMenu();
                 break;
             case 3:
                 developerInfo();
@@ -350,10 +407,15 @@ public class VirtualKeyForYourRepositories {
 
 
 
+    private static File[] getFileListFromFolder(String path){
+        File directoryPath = new File(path);
+        File filesList[] = directoryPath.listFiles();
+        return filesList;
+    }
 
-    // FilesExplorer method
-    private static void filesExplorer(){
 
+
+    private static void filesExplorerMessage(){
         String firstLine = "[ File Explorer ]";
         String userInputLine = "Please enter your choice here: ";
         String lastLine = "[ Please Enter Your Choice Below ]";
@@ -395,9 +457,69 @@ public class VirtualKeyForYourRepositories {
 
         //System.out.println(userInputLine); // Input in next line
         System.out.print(userInputLine); // Input in same line
+    }
+
+    // FilesExplorer method
+    private static void filesExplorer(){
+
+        String firstLine = "[ File Explorer ]";
+        String userInputLine = "Please enter your choice here: ";
+        String lastLine = "[ Please Enter Your Choice Below ]";
+
+        System.out.println();
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+        int numbering = 0;
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "General File Explorer options:", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Go to Main Menu", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Go to parent directory", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Create a file", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Sort file ascending", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Sort file descending", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " Search folder", '|', ' '));
+
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Select a file for details and more options:", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+        //Convert this below in a method if possible
+
+        int loopIterations = 0;
+
+        if (getFileListFromFolder(currentDirectoryPath) != null && getFileListFromFolder(currentDirectoryPath).length > 0){
+            for (File file : getFileListFromFolder(currentDirectoryPath)){
+                loopIterations++;
+                // Check if the file is a directory
+                if (file.isDirectory()){
+                    System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " " + file.getName() + " [Folder]", '|', ' '));
+
+                }else {
+                    System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numbering)+"]" + " " + file.getName(), '|', ' '));
+
+                }
+            }
+        }
+
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println();
+
+        //System.out.println(userInputLine); // Input in next line
+        System.out.print(userInputLine); // Input in same line
+        System.out.println(numbering);
+        System.out.println(loopIterations);
+
+
+
 
 
         // Down below, we need user input and functionality
+        // if selection is folder than list it
+
 
     }
 
