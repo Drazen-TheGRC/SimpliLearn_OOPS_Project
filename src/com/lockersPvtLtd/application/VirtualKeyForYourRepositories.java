@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DecimalFormat;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -553,7 +552,7 @@ public class VirtualKeyForYourRepositories {
         double fileSizeInKiloBytes = fileSize/2024;
 
         //creating the console look
-        String firstLine = "[ File details: " + fileToProcess.getName() + " ]";
+        String firstLine = "[ File details ]";
         String userInputLine = "Please enter your choice here: ";
         String lastLine = "[ Please Enter Your Choice Below ]";
 
@@ -663,6 +662,58 @@ public class VirtualKeyForYourRepositories {
         }
     }
     private static void deleteFile(File fileToProcess){
+        Path path = Paths.get(fileToProcess.getAbsolutePath());
+        double fileSize = 0;
+        try {
+            fileSize = Files.size(path);
+        }catch (IOException e){
+            e.printStackTrace();
+            //Make a code to try again
+        }
+        double fileSizeInKiloBytes = fileSize/2024;
+
+        String firstLine = "[ Confirm you want to delete ]";
+        String userInputLine = "Please enter your choice here: ";
+        String lastLine = "[ Please Enter Your Choice Below ]";
+
+
+        System.out.println();
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File name: " + fileToProcess.getName() +  "", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File path: " + fileToProcess.getAbsolutePath() +  "", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File size: " + String.format("%.5f", fileSizeInKiloBytes)  + " kilobytes" , '|', ' '));
+
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[1] To CONFIRM deletion", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[2] To CANCEL deletion", '|', ' '));
+
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println();
+
+        //System.out.println(userInputLine); // Input in next line
+        System.out.print(userInputLine); // Input in same line
+
+        int min = 1;
+        int max = 2;
+
+        int option;
+
+        //Getting validated option from user
+        option = userInput(min, max);
+
+        switch (option) {
+            case 1:
+                deleteFileProtocol(fileToProcess);
+                break;
+            case 2:
+                fileDetails(fileToProcess);
+                break;
+        }
+    }
+    private static void deleteFileProtocol(File fileToProcess){
         File fileToDelete = new File(fileToProcess.getAbsolutePath());
         if (fileToDelete.delete()){
             System.out.println();
