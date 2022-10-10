@@ -1,6 +1,5 @@
 package com.lockersPvtLtd.application;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,19 +10,13 @@ import java.util.regex.Pattern;
 
 public class VirtualKeyForYourRepositories {
 
+
+
     // Path variables
-    static String currentDirectoryPath; //It is the path which changes as we navigate through file explorer
-    static String absoluteAppDirectoryPath; //It is the constant path provided by the user and can only be changed through main menu by selection of option “Change Path”.
+    static String absoluteAppDirectoryPath; // It is the path provided by the user and can only be changed using setAppDirectoryPath() or updateAppDirectoryPath()
+    static String currentDirectoryPath; // It is the path which changes as we navigate through fileExplorer by entering folders or by going to a parent folder
 
-    // Other global variables
-    static String appName = "Virtual Key For Your Repositories";
-    static String gitHubAppLink = "https://github.com/Drazen-BBG/SimpliLearn_OOPS_Project";
-    static String developerName = "Drazen Drinic";
-    static String developerLinkedin = "https://www.linkedin.com/in/drazendrinic/";
-    static int consoleBoxWidth = 90; //Suggested minimum is 90
-    static int numberingInFileExplorer = 0; //
-
-    //Path getters and setters
+    // Path getters and setters
     public static String getCurrentDirectoryPath() {
         return currentDirectoryPath;
     }
@@ -39,12 +32,25 @@ public class VirtualKeyForYourRepositories {
 
 
 
-    // Main method
+
+    // Other global variables
+    static String appName = "Virtual Key For Your Repositories";
+    static String gitHubAppLink = "https://github.com/Drazen-BBG/SimpliLearn_OOPS_Project";
+    static String developerName = "Drazen Drinic";
+    static String developerLinkedin = "https://www.linkedin.com/in/drazendrinic/";
+    static int consoleBoxWidth = 90; //Suggested minimum is 90
+    static int numberingInFileExplorer = 0;
+    static int loopIterations = 0;
+
+
+
+
+    // main()
     public static void main(String[] args) {
         startApp();
     }
 
-    //Start App method
+    // startApp()
     private static void startApp(){
         //Clear the console code, having issues to make it work in IntelliJ IDEA
         System.out.print("\033[H\033[2J");
@@ -57,12 +63,15 @@ public class VirtualKeyForYourRepositories {
         mainMenu();
 
     }
+
+    // exitApp()
     private static void exitApp(){
         goodbyeMessage();
+        waitSeconds(3);
         System.exit(0);
     }
 
-    //Wait seconds method to delay execution of the code
+    // waitSeconds() delays execution of the code in seconds entered as parameter.
     private static void waitSeconds(int waitSeconds){
 
         int milliSeconds = 1000 * waitSeconds;
@@ -73,7 +82,8 @@ public class VirtualKeyForYourRepositories {
         }
     }
 
-    // LineBuilder methods to build lines in the console, for better presentation
+
+    // lineBuilder methods help us to build lines in the console, for better presentation.
     private static String lineBuilderCenterAligned(int lineLength, String mainString, char firstAndLastPlaceHolder, char mainPlaceHolder){
         String line = "";
         String prefix = "";
@@ -122,7 +132,7 @@ public class VirtualKeyForYourRepositories {
     }
 
 
-    //Welcome method is the first method to call it greats the user, and after it comes the SetWorkingDirectoryPath method
+    // welcomeMessage() is the first method to call, it greats the user.
     private static void welcomeMessage(){
         String firstLine = "[ Welcome ]";
         String developerLine = "Application Developer : " + developerName;
@@ -143,7 +153,8 @@ public class VirtualKeyForYourRepositories {
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
     }
-    //Goodbye method is called when we want to exit the program
+
+    //goodbyeMessage() is called when we want to exit the program
     private static void goodbyeMessage(){
         String firstLine = "[ Goodbye ]";
         String lastLine = "***";
@@ -159,13 +170,17 @@ public class VirtualKeyForYourRepositories {
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
         //System.out.println();
     }
-    //Developer info method to display developer info
+
+    // developerInfo() displays developer info
     private static void developerInfo(){
         String firstLine = "[ Developer Info ]";
+        String userInputLine = "Please enter your choice here: ";
+        String lastLine = "[ Next steps are below ]";
+
         String developerName = "App Developer : " + VirtualKeyForYourRepositories.developerName;
         String developerLinkedin = "LinkedIn: " + VirtualKeyForYourRepositories.developerLinkedin;
         String gitHubLine = "Application GitHub: ";
-        String lastLine = "[ Main Menu is coming in 5 seconds ]";
+
 
         System.out.println();
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
@@ -178,15 +193,37 @@ public class VirtualKeyForYourRepositories {
         //System.out.println(lineBuilderLeftAligned(consoleBoxWidth, gitHubAppLink, '|', ' '));
 
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[1] Main Menu", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[2] Exit App", '|', ' '));
+
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println();
 
+        //System.out.println(userInputLine); // Input in next line
+        System.out.print(userInputLine); // Input in same line
 
-        waitSeconds(5);
-        mainMenu();
+        int min = 1;
+        int max = 2;
+
+        int option;
+
+        //Getting validated option from user
+        option = userInput(min, max);
+
+        switch (option){
+            case 1:
+                mainMenu();
+                break;
+            case 2:
+                exitApp();
+                break;
+        }
     }
 
 
-    // SetWorkingDirectoryPath method, comes after the Welcome method, and it sets the path for the user app directory
+    // setAppDirectoryPathMessage() is a method used to separate message from functionality in the setAppDirectoryPath()
     private static void setAppDirectoryPathMessage(){
         String firstLine = "[ Setting Absolute Working Directory Path ]";
         String userInputLine = "Please paste or enter your absolute working directory path here: ";
@@ -207,6 +244,7 @@ public class VirtualKeyForYourRepositories {
         //System.out.println(userInputLine); // Input in next line
         System.out.print(userInputLine); // Input in same line
     }
+    // setAppDirectoryPath() sets the path for the app folder at the beginning of the program
     private static void setAppDirectoryPath() {
 
         setAppDirectoryPathMessage();
@@ -234,6 +272,7 @@ public class VirtualKeyForYourRepositories {
             }
         }
     }
+    // updateAppDirectoryPathMessage() is a method used to separate message from functionality in the updateAppDirectoryPath()
     private static void updateAppDirectoryPathMessage(){
         String firstLine = "[ Updating Absolute Working Directory Path ]";
         String userInputLine = "Please paste or enter your absolute working directory path here: ";
@@ -254,6 +293,7 @@ public class VirtualKeyForYourRepositories {
         //System.out.println(userInputLine); // Input in next line
         System.out.print(userInputLine); // Input in same line
     }
+    // updateAppDirectoryPath() is a method that gives user an option to change the absoluteAppDirectoryPath, and therefore it also updates the currentDirectoryPath
     private static void updateAppDirectoryPath() {
 
         updateAppDirectoryPathMessage();
@@ -284,38 +324,10 @@ public class VirtualKeyForYourRepositories {
 
 
 
+
     // User input methods to take input from user and to validate the input
     // For this to work every other method calling those methods have to have min and max values
-
-    private static String getUserInput(){
-        String userInputString;
-        Scanner scanner = new Scanner(System.in);
-        userInputString = scanner.next();
-        //scanner.close(); This was causing issues
-
-        return userInputString;
-    }
-
-    private static boolean isInteger(String stringToCheck){
-        if (stringToCheck == null){
-            return false;
-        }
-        try {
-            int integerNumber = Integer.parseInt(stringToCheck);
-        }catch (NumberFormatException nfe){
-            return false;
-        }
-        return true;
-    }
-
-    private static boolean isInRange(int numberToTest, int min, int max){
-        if (numberToTest >= min && numberToTest <= max){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
+    // userInput() is called in every other method when we need a user input, other related methods below are helper methods to make it all work
     private static int userInput(int min, int max){
         String userInputString = getUserInput();
         int userInputInteger;
@@ -351,9 +363,40 @@ public class VirtualKeyForYourRepositories {
             return userInputInteger;
         }
     }
+    // getUserInput() takes user input as a string and sends it for further checks
+    private static String getUserInput(){
+        String userInputString;
+        Scanner scanner = new Scanner(System.in);
+        userInputString = scanner.next();
+        //scanner.close(); This was causing issues
+
+        return userInputString;
+    }
+    // isInteger() checks if the user input is integer
+    private static boolean isInteger(String stringToCheck){
+        if (stringToCheck == null){
+            return false;
+        }
+        try {
+            int integerNumber = Integer.parseInt(stringToCheck);
+        }catch (NumberFormatException nfe){
+            return false;
+        }
+        return true;
+    }
+    // isInRange() method checks if the user input is in range of available options
+    private static boolean isInRange(int numberToTest, int min, int max){
+        if (numberToTest >= min && numberToTest <= max){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 
-    // mainMenuMessage method
+
+
+    // mainMenuMessage() is a method used to separate message from functionality in the mainMenu()
     private static void mainMenuMessage(){
         // Message
         String firstLine = "[ Main Menu ]";
@@ -377,7 +420,7 @@ public class VirtualKeyForYourRepositories {
         //System.out.println(userInputLine); // Input in next line
         System.out.print(userInputLine); // Input in same line
     }
-    // mainMenu method
+    // mainMenu() method is the main menu presented to the user
     private static void mainMenu(){
 
         mainMenuMessage();
@@ -412,7 +455,7 @@ public class VirtualKeyForYourRepositories {
 
 
 
-    //getFileListFromFolder method takes a path and lists the content of the folder in that path
+    // getFileListFromFolder lists files and folders from the currentDirectoryPath and returns an array of Files
     private static File[] getFileListFromFolder(String path){
         File directoryPath = new File(path);
         File filesList[] = directoryPath.listFiles();
@@ -420,19 +463,8 @@ public class VirtualKeyForYourRepositories {
     }
 
 
-
-
-    //This is actually old filesExplorer
+    // fileExplorerMessage() is a method used to separate message from functionality in the fileExplorer()
     private static void fileExplorerMessage(){
-
-    }
-
-    // FilesExplorer method
-    private static void fileExplorer(){
-
-        //Restarting the numbering on each fileExplorer call
-        numberingInFileExplorer = 0;
-
         //creating the console look
         String firstLine = "[ File Explorer ]";
         String userInputLine = "Please enter your choice here: ";
@@ -460,7 +492,7 @@ public class VirtualKeyForYourRepositories {
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
         //Convert this below in a method if possible
-        int loopIterations = 0;
+
         if (getFileListFromFolder(currentDirectoryPath) != null && getFileListFromFolder(currentDirectoryPath).length > 0){
             for (File file : getFileListFromFolder(currentDirectoryPath)){
                 ++loopIterations;
@@ -482,9 +514,15 @@ public class VirtualKeyForYourRepositories {
 
         //System.out.println(userInputLine); // Input in next line
         System.out.print(userInputLine); // Input in same line
+    }
+    // fileExplorerMessage() is a method used to separate message from functionality in the fileExplorer()
+    private static void fileExplorer(){
 
-        // Down below, we need user input and functionality
-        // if selection is folder than list it
+        //Restarting the numberingInFileExplorer and loopIterations on each fileExplorer() call
+        numberingInFileExplorer = 0;
+        loopIterations = 0;
+
+        fileExplorerMessage();
 
         int min = 1;
         int max = numberingInFileExplorer;
@@ -517,40 +555,25 @@ public class VirtualKeyForYourRepositories {
                 break;
         }
 
-        //Files and Folders Menu
-        //workflow fo options related to files
+        //Files and Folders Menu control down below
         if (option>6 && option<=numberingInFileExplorer){
-            //Need to code the algorithm how to select the file or folder related to the option
             File fileToProcess = getFileListFromFolder(currentDirectoryPath)[(option-(numberingInFileExplorer-loopIterations))-1];
-
-            //Code direction depending on option, if the option relates to a folder or to a file
             if (fileToProcess.isDirectory()){
-                //If option selected is a folder
-                //setCurrentDirectoryPath
-                //Call filesExplorer for that folder
+                // If option selected is a folder
+                // setCurrentDirectoryPath
                 setCurrentDirectoryPath(fileToProcess.getPath());
+                // Go into the folder using previously set path
                 goIntoDirectory();
             }else {
+                // If bot a folder it must be than a file so let's see its details using the fileDetails() method
                 fileDetails(fileToProcess);
             }
         }
     }
 
 
-
-    //File details methods for the selection of files in the fileExplorer
-
-    private static void fileDetails(File fileToProcess){
-        Path path = Paths.get(fileToProcess.getAbsolutePath());
-        double fileSize = 0;
-        try {
-            fileSize = Files.size(path);
-        }catch (IOException e){
-            e.printStackTrace();
-            //Make a code to try again
-        }
-        double fileSizeInKiloBytes = fileSize/2024;
-
+    // fileDetailsMessage() is a method used to separate message from functionality in the fileDetails()
+    private static void fileDetailsMessage(File fileToProcess, double fileSizeInKiloBytes){
         //creating the console look
         String firstLine = "[ File details ]";
         String userInputLine = "Please enter your choice here: ";
@@ -568,7 +591,7 @@ public class VirtualKeyForYourRepositories {
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
 
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[1]" + " Go to Main Menu", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[2]" + " Go to parent directory", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[2]" + " Exit details", '|', ' '));
         System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[3]" + " Delete file", '|', ' '));
 
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
@@ -577,9 +600,22 @@ public class VirtualKeyForYourRepositories {
 
         //System.out.println(userInputLine); // Input in next line
         System.out.print(userInputLine); // Input in same line
+    }
+    // fileDetails() lists the details of a selected file and offers an option to delete the file
+    private static void fileDetails(File fileToProcess){
+        Path path = Paths.get(fileToProcess.getAbsolutePath());
+        double fileSize = 0;
+        try {
+            fileSize = Files.size(path);
+        }catch (IOException e){
+            e.printStackTrace();
+            //Make a code to try again
+        }
+        double fileSizeInKiloBytes = fileSize/2024;
 
+        // fileDetailsMessage()
+        fileDetailsMessage(fileToProcess, fileSizeInKiloBytes);
 
-        //Make code for file details functionality include go to parent - go back, delete
         int min = 1;
         int max = 3;
 
@@ -593,16 +629,18 @@ public class VirtualKeyForYourRepositories {
                 mainMenu();
                 break;
             case 2:
-                goToParentDirectory();
+                fileExplorer();
                 break;
             case 3:
-                deleteFile(fileToProcess);
+                deleteFileProtocol(fileToProcess);
                 waitSeconds(2);
                 fileExplorer();
                 break;
         }
-
     }
+
+
+    // createFileMessage() is a method used to separate message from functionality in the createFile()
     private static void createFileMessage(){
         //Message and console box
         String firstLine = "[ Create File ]";
@@ -624,6 +662,7 @@ public class VirtualKeyForYourRepositories {
         //System.out.println(userInputLine); // Input in next line
         System.out.print(userInputLine); // Input in same line
     }
+    // createFile() creates a new file in the folder we were seeing using fileExplorer()
     private static void crateFile(){
 
         createFileMessage();
@@ -661,17 +700,9 @@ public class VirtualKeyForYourRepositories {
             crateFile();
         }
     }
-    private static void deleteFile(File fileToProcess){
-        Path path = Paths.get(fileToProcess.getAbsolutePath());
-        double fileSize = 0;
-        try {
-            fileSize = Files.size(path);
-        }catch (IOException e){
-            e.printStackTrace();
-            //Make a code to try again
-        }
-        double fileSizeInKiloBytes = fileSize/2024;
 
+    // deleteFileProtocolMessage() is a method used to separate message from functionality in the deleteFileProtocol()
+    private static void deleteFileProtocolMessage(File fileToProcess, double fileSizeInKiloBytes){
         String firstLine = "[ Confirm you want to delete ]";
         String userInputLine = "Please enter your choice here: ";
         String lastLine = "[ Please Enter Your Choice Below ]";
@@ -695,6 +726,21 @@ public class VirtualKeyForYourRepositories {
 
         //System.out.println(userInputLine); // Input in next line
         System.out.print(userInputLine); // Input in same line
+    }
+    // deleteFileProtocol() organizes the whole thing about deleting the file using deleteFileProtocolMessage() and deleteFileExecution()
+    private static void deleteFileProtocol(File fileToProcess){
+        Path path = Paths.get(fileToProcess.getAbsolutePath());
+        double fileSize = 0;
+        try {
+            fileSize = Files.size(path);
+        }catch (IOException e){
+            e.printStackTrace();
+            //Make a code to try again
+        }
+        double fileSizeInKiloBytes = fileSize/2024;
+
+        // deleteFileMessage()
+        deleteFileProtocolMessage(fileToProcess, fileSizeInKiloBytes);
 
         int min = 1;
         int max = 2;
@@ -706,14 +752,16 @@ public class VirtualKeyForYourRepositories {
 
         switch (option) {
             case 1:
-                deleteFileProtocol(fileToProcess);
+                deleteFileExecution(fileToProcess);
                 break;
             case 2:
                 fileDetails(fileToProcess);
                 break;
         }
     }
-    private static void deleteFileProtocol(File fileToProcess){
+
+    // deleteFileExecution() deletes the actual file the
+    private static void deleteFileExecution(File fileToProcess){
         File fileToDelete = new File(fileToProcess.getAbsolutePath());
         if (fileToDelete.delete()){
             System.out.println();
@@ -725,13 +773,14 @@ public class VirtualKeyForYourRepositories {
     }
 
 
+    // goToParentDirectory()
     private static void goToParentDirectory(){
         Path path = Paths.get(currentDirectoryPath);
         Path parentPath = path.getParent();
         setCurrentDirectoryPath(parentPath.toString());
         fileExplorer();
     }
-
+    // goIntoDirectory()
     private static void goIntoDirectory(){
         //We need to change the currentDirectoryPath before calling this method, since this method is just calling the fileExplorer
         fileExplorer();
@@ -874,7 +923,5 @@ public class VirtualKeyForYourRepositories {
         indexToReturn = (option - (numbering - loopRepetitions))-1;
         return indexToReturn;
     }
-
-
 
 }
