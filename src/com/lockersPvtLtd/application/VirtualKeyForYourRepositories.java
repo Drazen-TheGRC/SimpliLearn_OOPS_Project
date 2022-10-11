@@ -5,8 +5,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Pattern;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.util.Arrays;
 
 public class VirtualKeyForYourRepositories {
 
@@ -435,7 +439,7 @@ public class VirtualKeyForYourRepositories {
 
         switch (option){
             case 1:
-                fileExplorer();
+                fileExplorer(getFileListFromFolder(currentDirectoryPath));
                 break;
             case 2:
                 updateAppDirectoryPath();
@@ -463,17 +467,20 @@ public class VirtualKeyForYourRepositories {
     }
 
     private static File[] sortAscending(File[] fileListToSort){
+        Arrays.sort(fileListToSort);
         return fileListToSort;
     }
 
     private static File[] sortDescending(File[] fileListToSort){
+
+        Arrays.sort(fileListToSort, Collections.reverseOrder());
         return fileListToSort;
     }
 
     private static void searchFolder(File[] fileListToSearch){
 
         Scanner scanner = new Scanner(System.in);
-        String nameSearch =scanner.next();
+        String nameToSearch =scanner.next();
 
         boolean foundIt = false;
         if (fileListToSearch == null){
@@ -481,7 +488,7 @@ public class VirtualKeyForYourRepositories {
         }else{
             for (int i = 0; i < fileListToSearch.length; i++) {
                 String fileName = fileListToSearch[i].getName();
-                if (fileName.equalsIgnoreCase(nameSearch)){
+                if (fileName.equalsIgnoreCase(nameToSearch)){
                     // code if file found and change foundIt to true
                     foundIt = true;
                 }
@@ -494,7 +501,10 @@ public class VirtualKeyForYourRepositories {
 
 
     // fileExplorerMessage() is a method used to separate message from functionality in the fileExplorer()
-    private static void fileExplorerMessage(){
+    private static void fileExplorerMessage(File[] inputFileListToExplore){
+
+        File[] fileListToExplore = inputFileListToExplore;
+
         //creating the console look
         String firstLine = "[ File Explorer ]";
         String userInputLine = "Please enter your choice here: ";
@@ -523,8 +533,8 @@ public class VirtualKeyForYourRepositories {
 
         //Convert this below in a method if possible
 
-        if (getFileListFromFolder(currentDirectoryPath) != null && getFileListFromFolder(currentDirectoryPath).length > 0){
-            for (File file : getFileListFromFolder(currentDirectoryPath)){
+        if (fileListToExplore != null && fileListToExplore.length > 0){
+            for (File file : fileListToExplore){
                 ++loopIterations;
                 // Check if the file is a directory
                 if (file.isDirectory()){
@@ -546,13 +556,14 @@ public class VirtualKeyForYourRepositories {
         System.out.print(userInputLine); // Input in same line
     }
     // fileExplorerMessage() is a method used to separate message from functionality in the fileExplorer()
-    private static void fileExplorer(){
+    private static void fileExplorer(File[] inputFileListToExplore){
 
+        File[] fileListToExplore = inputFileListToExplore;
         //Restarting the numberingInFileExplorer and loopIterations on each fileExplorer() call
         numberingInFileExplorer = 0;
         loopIterations = 0;
 
-        fileExplorerMessage();
+        fileExplorerMessage(fileListToExplore);
 
         int min = 1;
         int max = numberingInFileExplorer;
@@ -572,13 +583,15 @@ public class VirtualKeyForYourRepositories {
             case 3:
                 crateFile();
                 waitSeconds(2);
-                fileExplorer();
+                fileExplorer(getFileListFromFolder(currentDirectoryPath));
                 break;
             case 4:
-                //Sort file ascending;
+
+                fileExplorer(sortAscending(getFileListFromFolder(currentDirectoryPath)));
                 break;
             case 5:
-                //Sort file descending
+
+                fileExplorer(sortDescending(getFileListFromFolder(currentDirectoryPath)));
                 break;
             case 6:
                 //Search folder
@@ -587,7 +600,7 @@ public class VirtualKeyForYourRepositories {
 
         //Files and Folders Menu control down below
         if (option>6 && option<=numberingInFileExplorer){
-            File fileToProcess = getFileListFromFolder(currentDirectoryPath)[(option-(numberingInFileExplorer-loopIterations))-1];
+            File fileToProcess = fileListToExplore[(option-(numberingInFileExplorer-loopIterations))-1];
             if (fileToProcess.isDirectory()){
                 // If option selected is a folder
                 // setCurrentDirectoryPath
@@ -659,12 +672,12 @@ public class VirtualKeyForYourRepositories {
                 mainMenu();
                 break;
             case 2:
-                fileExplorer();
+                fileExplorer(getFileListFromFolder(currentDirectoryPath));
                 break;
             case 3:
                 deleteFileProtocol(fileToProcess);
                 waitSeconds(2);
-                fileExplorer();
+                fileExplorer(getFileListFromFolder(currentDirectoryPath));
                 break;
         }
     }
@@ -709,7 +722,7 @@ public class VirtualKeyForYourRepositories {
                     System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Your file: " +  file.getName() + " was created. <<<", '-', '-'));
                     System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The file path is: " + file.getAbsolutePath() + " <<<", '-', '-'));
                     waitSeconds(2);
-                    fileExplorer();
+                    fileExplorer(getFileListFromFolder(currentDirectoryPath));
                 }else {
                     //If you can't create file
                     System.out.println();
@@ -808,12 +821,12 @@ public class VirtualKeyForYourRepositories {
         Path path = Paths.get(currentDirectoryPath);
         Path parentPath = path.getParent();
         setCurrentDirectoryPath(parentPath.toString());
-        fileExplorer();
+        fileExplorer(getFileListFromFolder(currentDirectoryPath));
     }
     // goIntoDirectory()
     private static void goIntoDirectory(){
         //We need to change the currentDirectoryPath before calling this method, since this method is just calling the fileExplorer
-        fileExplorer();
+        fileExplorer(getFileListFromFolder(currentDirectoryPath));
     }
 
 
