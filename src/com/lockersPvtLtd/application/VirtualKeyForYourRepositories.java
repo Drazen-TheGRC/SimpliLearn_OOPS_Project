@@ -462,6 +462,36 @@ public class VirtualKeyForYourRepositories {
         return filesList;
     }
 
+    private static File[] sortAscending(File[] fileListToSort){
+        return fileListToSort;
+    }
+
+    private static File[] sortDescending(File[] fileListToSort){
+        return fileListToSort;
+    }
+
+    private static void searchFolder(File[] fileListToSearch){
+
+        Scanner scanner = new Scanner(System.in);
+        String nameSearch =scanner.next();
+
+        boolean foundIt = false;
+        if (fileListToSearch == null){
+            // Empty directory
+        }else{
+            for (int i = 0; i < fileListToSearch.length; i++) {
+                String fileName = fileListToSearch[i].getName();
+                if (fileName.equalsIgnoreCase(nameSearch)){
+                    // code if file found and change foundIt to true
+                    foundIt = true;
+                }
+            }
+        }
+        if (foundIt == false){
+            // code for file not found
+        }
+    }
+
 
     // fileExplorerMessage() is a method used to separate message from functionality in the fileExplorer()
     private static void fileExplorerMessage(){
