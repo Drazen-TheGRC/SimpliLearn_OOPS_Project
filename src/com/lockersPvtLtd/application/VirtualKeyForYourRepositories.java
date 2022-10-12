@@ -42,7 +42,7 @@ public class VirtualKeyForYourRepositories {
     static String gitHubAppLink = "https://github.com/Drazen-BBG/SimpliLearn_OOPS_Project";
     static String developerName = "Drazen Drinic";
     static String developerLinkedin = "https://www.linkedin.com/in/drazendrinic/";
-    static int consoleBoxWidth = 90; //Suggested minimum is 90
+    static int consoleBoxWidth = 100; //Suggested minimum is 90
     static int numberingInFileExplorer = 0;
     static int loopIterations = 0;
 
@@ -439,7 +439,7 @@ public class VirtualKeyForYourRepositories {
 
         switch (option){
             case 1:
-                fileExplorer(getFileListFromFolder(currentDirectoryPath));
+                fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
                 break;
             case 2:
                 updateAppDirectoryPath();
@@ -460,8 +460,8 @@ public class VirtualKeyForYourRepositories {
 
 
     // getFileListFromFolder lists files and folders from the currentDirectoryPath and returns an array of Files
-    private static File[] getFileListFromFolder(String path){
-        File directoryPath = new File(path);
+    private static File[] getFileListFromFolder(String pathToFolder){
+        File directoryPath = new File(pathToFolder);
         File filesList[] = directoryPath.listFiles();
         return filesList;
     }
@@ -477,25 +477,61 @@ public class VirtualKeyForYourRepositories {
         return fileListToSort;
     }
 
+
+    private static void searchFolderMessage(){
+        //Message and console box
+        String firstLine = "[ Search Folder ]";
+        String userInputLine = "Please enter the term to search: ";
+        String lastLine = "[ Please Enter The Search Term Below ]";
+
+        System.out.println();
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Rule #1 This search will find only exact match for your search", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Rule #2 This search is not case sensitive", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Rule #3 If your file has extension you need to include it in your search", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Example: abc.txt & ABC.TXT are both valid search terms for a file abc.txt", '|', ' '));
+
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println();
+
+        //System.out.println(userInputLine); // Input in next line
+        System.out.print(userInputLine); // Input in same line
+    }
     private static void searchFolder(File[] fileListToSearch){
 
+        searchFolderMessage();
+
         Scanner scanner = new Scanner(System.in);
-        String nameToSearch =scanner.next();
+        String termToSearch =scanner.next();
 
         boolean foundIt = false;
         if (fileListToSearch == null){
-            // Empty directory
+            System.out.println();
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The folder is empty <<<", '-', '-'));
+            //System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The folder is empty <<<", '-', '-'));
+            waitSeconds(3);
+            fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
         }else{
             for (int i = 0; i < fileListToSearch.length; i++) {
                 String fileName = fileListToSearch[i].getName();
-                if (fileName.equalsIgnoreCase(nameToSearch)){
+                if (fileName.equalsIgnoreCase(termToSearch)){
                     // code if file found and change foundIt to true
+                    System.out.println();
+                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You found a file or folder named " + termToSearch + " <<<", '-', '-'));
+                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Lets see whats inside <<<", '-', '-'));
+                    fileDetails(fileListToSearch[i]);
                     foundIt = true;
                 }
             }
         }
         if (foundIt == false){
-            // code for file not found
+            System.out.println();
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> There is no file or folder named " + termToSearch + " <<<", '-', '-'));
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
+            searchFolder(getFileListFromFolder(getCurrentDirectoryPath()));
         }
     }
 
@@ -583,18 +619,18 @@ public class VirtualKeyForYourRepositories {
             case 3:
                 crateFile();
                 waitSeconds(2);
-                fileExplorer(getFileListFromFolder(currentDirectoryPath));
+                fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
                 break;
             case 4:
 
-                fileExplorer(sortAscending(getFileListFromFolder(currentDirectoryPath)));
+                fileExplorer(sortAscending(getFileListFromFolder(getCurrentDirectoryPath())));
                 break;
             case 5:
 
-                fileExplorer(sortDescending(getFileListFromFolder(currentDirectoryPath)));
+                fileExplorer(sortDescending(getFileListFromFolder(getCurrentDirectoryPath())));
                 break;
             case 6:
-                //Search folder
+                searchFolder(getFileListFromFolder(getCurrentDirectoryPath()));
                 break;
         }
 
@@ -672,12 +708,12 @@ public class VirtualKeyForYourRepositories {
                 mainMenu();
                 break;
             case 2:
-                fileExplorer(getFileListFromFolder(currentDirectoryPath));
+                fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
                 break;
             case 3:
                 deleteFileProtocol(fileToProcess);
                 waitSeconds(2);
-                fileExplorer(getFileListFromFolder(currentDirectoryPath));
+                fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
                 break;
         }
     }
@@ -715,14 +751,14 @@ public class VirtualKeyForYourRepositories {
         String fileName =scanner.next();
 
         try {
-            File file = new File(currentDirectoryPath, fileName);
+            File file = new File(getCurrentDirectoryPath(), fileName);
             if(!file.exists()) {
                 if(file.createNewFile()) {
                     System.out.println();
                     System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Your file: " +  file.getName() + " was created. <<<", '-', '-'));
                     System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The file path is: " + file.getAbsolutePath() + " <<<", '-', '-'));
                     waitSeconds(2);
-                    fileExplorer(getFileListFromFolder(currentDirectoryPath));
+                    fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
                 }else {
                     //If you can't create file
                     System.out.println();
@@ -818,15 +854,15 @@ public class VirtualKeyForYourRepositories {
 
     // goToParentDirectory()
     private static void goToParentDirectory(){
-        Path path = Paths.get(currentDirectoryPath);
+        Path path = Paths.get(getCurrentDirectoryPath());
         Path parentPath = path.getParent();
         setCurrentDirectoryPath(parentPath.toString());
-        fileExplorer(getFileListFromFolder(currentDirectoryPath));
+        fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
     }
     // goIntoDirectory()
     private static void goIntoDirectory(){
         //We need to change the currentDirectoryPath before calling this method, since this method is just calling the fileExplorer
-        fileExplorer(getFileListFromFolder(currentDirectoryPath));
+        fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
     }
 
 
