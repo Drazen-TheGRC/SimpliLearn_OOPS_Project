@@ -1,10 +1,65 @@
 
 Sprints Planning:
 
-The scope of project has been planned to have 5 sprints.
+This project was divided into 5 sprites, and the goal is to have a working console app the whole time.
 
-Sprint 1
+Sprint 1:
+Creating an IntelliJ IDEA project, setting up a git repository and pushing it to GitHub. The goal is to have a working
+app the whole time and a very nice presentation in the console. So the 1st spring was all about creating
+welcomeMessage() and goodbyeMessage() and presenting it nicely in the console using two methods for nice and even
+presentation in the console named lineBuilderCenterAligned and lineBuilderLeftAligned(). Also few variables to store
+the data are needed and those are appName, consoleBoxWidth for example.
 
-In the first sprint we are going to create a project in IntelliJ IDEA and enable version control using git and gitHub.
-To make it a fully functional app even if it can only print Welcome and Goodbye messages.
+The second part of the first sprint was the creation of the mainMenu() and the ability to set the
+absoluteAppDirectoryPath and the currentDirectoryPath with the all needed methods related to them. The goal was to be
+able to set and get the path to the folder in which the app will be exploring, creating, sorting, searching and deleting
+the files. For this purpose many methods and variables need to be created like: setAbsoluteAppDirectoryPath(),
+getAbsoluteAppDirectoryPath(), setCurrentDirectoryPath(), getCurrentDirectoryPath() those are the simple setters and
+getters. Later we will implement better solutions.
 
+The third part was all about the user input and its validation. For this purpose we need userInput() which will
+getUserInput() in form of a String and then we need to validate if it is an integer and is it in range so two more
+methods are needed and those are isInteger() and isInRange(). Now the mainMenu was able to perform few tasks and it was
+time to plan the 2nd sprite.
+
+Sprite 2:
+In the second sprite we want to add some functionality to our mainMenu() so we will start with simple stuff first.
+We will create the ability to show of by creating a developerInfo() method and its variables to be able to present the
+developer to the audience. For this purpose, few more varables are need to store the info developerName,
+developerLinkedin and gitHubAppLink.
+
+In the second part of the 2nd sprint the goal is to be able to startApp() and exitApp() and of course to delay the code
+execution for better presentation so we need to create waitSeconds() method for this purpose.
+
+Sprint 3:
+In the third spring we will focus on the fileExplorer() and its fileDetailsMessage() methods. For its implementation we
+will need to develop few methods to support the cause and few of those are going to be getFileListFromFolder() to be
+able to lest files from a specific folder path and fileDetails() to be able to present details for a specific file or
+folder and for its better presentation we will create fileDetailsMessage() to separate message from functionally as we
+did before.
+
+In the second part of the 3rd sprint we will develop goIntoDirectory() method to be able to enter directories and
+goToParentDirectory() method to be able to go to a parent directory. By now we will have nice mainMenu() and
+fileExplorer where we can go through folders and see details for selected files. The only remaining thing to do in this
+sprite is to implement the ability of creating files in a specific folder using fileExplorer() and its sub methods
+crateFile() and crateFileMessage() for separation of the code. Since we can crateFile() now we will add the option to
+delete the file to using deleteFileProtocol() method which uses deleteFileProtocolMessage for its presentation and for
+its execution we will create deleteFileExecution() method.
+
+Sprite 4:
+Our app needs to keep developing and in the 4th sprite we will add the remaining needed functionality and that is
+sorting and searching. First we will refactor the code and do a nice comment markup of the whole code before we go for
+implementation of the remaining functionally.
+
+In the second part of our 4th sprite we will develop sortAscending() and sortDescending() methods which are going to
+sort the file and then present it using the fileExplorer(). Those changes are going to influence the whole code and many
+changes in the code will need to be done to be able to join the soring functionality with the all existing functionality
+implemented in the fileExplorer().
+
+In the third part of the 4th sprint we will implement the earchFolder() method to give the user an option to search for
+a file or folder in the fileExplorer() after this is done app needs to be tested and documented.
+
+Sprite 5:
+In our 5th and last sprite we will test the app do necessary changes and refactoring to make the code shorter where it
+can be done easily. After all the testing is done we will add more comments in the code and then we will make the
+necessary documentation for this app to be able to make a nice report, app flow chart and algorithm details.

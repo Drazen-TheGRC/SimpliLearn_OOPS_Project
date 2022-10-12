@@ -7,18 +7,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
 import java.util.Arrays;
 
 public class VirtualKeyForYourRepositories {
 
 
-
     // Path variables
-    static String absoluteAppDirectoryPath; // It is the path provided by the user and can only be changed using setAppDirectoryPath() or updateAppDirectoryPath()
-    static String currentDirectoryPath; // It is the path which changes as we navigate through fileExplorer by entering folders or by going to a parent folder
+    // It is the path provided by the user and can only be changed using setAppDirectoryPath() or updateAppDirectoryPath()
+    static String absoluteAppDirectoryPath;
+    // It is the path which changes as we navigate through fileExplorer by entering folders or by going to a parent folder
+    static String currentDirectoryPath;
 
     // Path getters and setters
     public static String getCurrentDirectoryPath() {
@@ -39,11 +37,14 @@ public class VirtualKeyForYourRepositories {
 
     // Other global variables
     static String appName = "Virtual Key For Your Repositories";
+    static int consoleBoxWidth = 100; //Suggested minimum is 90
+
     static String gitHubAppLink = "https://github.com/Drazen-BBG/SimpliLearn_OOPS_Project";
     static String developerName = "Drazen Drinic";
     static String developerLinkedin = "https://www.linkedin.com/in/drazendrinic/";
-    static int consoleBoxWidth = 100; //Suggested minimum is 90
+    // numberingInFileExplorer is reset to 0 and then used to number each option for the user
     static int numberingInFileExplorer = 0;
+    // loopIterations is numbering inside loops to be able to calculate and make a difference between General options and file related options
     static int loopIterations = 0;
 
 
@@ -53,6 +54,9 @@ public class VirtualKeyForYourRepositories {
     public static void main(String[] args) {
         startApp();
     }
+
+
+
 
     // startApp()
     private static void startApp(){
@@ -67,14 +71,6 @@ public class VirtualKeyForYourRepositories {
         mainMenu();
 
     }
-
-    // exitApp()
-    private static void exitApp(){
-        goodbyeMessage();
-        waitSeconds(3);
-        System.exit(0);
-    }
-
     // waitSeconds() delays execution of the code in seconds entered as parameter.
     private static void waitSeconds(int waitSeconds){
 
@@ -85,6 +81,14 @@ public class VirtualKeyForYourRepositories {
             Thread.currentThread().interrupt();
         }
     }
+    // exitApp()
+    private static void exitApp(){
+        goodbyeMessage();
+        waitSeconds(3);
+        System.exit(0);
+    }
+
+
 
 
     // lineBuilder methods help us to build lines in the console, for better presentation.
@@ -134,6 +138,8 @@ public class VirtualKeyForYourRepositories {
 
         return line;
     }
+
+
 
 
     // welcomeMessage() is the first method to call, it greats the user.
@@ -225,6 +231,8 @@ public class VirtualKeyForYourRepositories {
                 break;
         }
     }
+
+
 
 
     // setAppDirectoryPathMessage() is a method used to separate message from functionality in the setAppDirectoryPath()
@@ -459,82 +467,6 @@ public class VirtualKeyForYourRepositories {
 
 
 
-    // getFileListFromFolder lists files and folders from the currentDirectoryPath and returns an array of Files
-    private static File[] getFileListFromFolder(String pathToFolder){
-        File directoryPath = new File(pathToFolder);
-        File filesList[] = directoryPath.listFiles();
-        return filesList;
-    }
-
-    private static File[] sortAscending(File[] fileListToSort){
-        Arrays.sort(fileListToSort);
-        return fileListToSort;
-    }
-
-    private static File[] sortDescending(File[] fileListToSort){
-
-        Arrays.sort(fileListToSort, Collections.reverseOrder());
-        return fileListToSort;
-    }
-
-
-    private static void searchFolderMessage(){
-        //Message and console box
-        String firstLine = "[ Search Folder ]";
-        String userInputLine = "Please enter the term to search: ";
-        String lastLine = "[ Please Enter The Search Term Below ]";
-
-        System.out.println();
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Rule #1 This search will find only exact match for your search", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Rule #2 This search is not case sensitive", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Rule #3 If your file has extension you need to include it in your search", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Example: abc.txt & ABC.TXT are both valid search terms for a file abc.txt", '|', ' '));
-
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
-        System.out.println();
-
-        //System.out.println(userInputLine); // Input in next line
-        System.out.print(userInputLine); // Input in same line
-    }
-    private static void searchFolder(File[] fileListToSearch){
-
-        searchFolderMessage();
-
-        Scanner scanner = new Scanner(System.in);
-        String termToSearch =scanner.next();
-
-        boolean foundIt = false;
-        if (fileListToSearch == null){
-            System.out.println();
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The folder is empty <<<", '-', '-'));
-            //System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The folder is empty <<<", '-', '-'));
-            waitSeconds(3);
-            fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
-        }else{
-            for (int i = 0; i < fileListToSearch.length; i++) {
-                String fileName = fileListToSearch[i].getName();
-                if (fileName.equalsIgnoreCase(termToSearch)){
-                    // code if file found and change foundIt to true
-                    System.out.println();
-                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You found a file or folder named " + termToSearch + " <<<", '-', '-'));
-                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Lets see whats inside <<<", '-', '-'));
-                    fileDetails(fileListToSearch[i]);
-                    foundIt = true;
-                }
-            }
-        }
-        if (foundIt == false){
-            System.out.println();
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> There is no file or folder named " + termToSearch + " <<<", '-', '-'));
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
-            searchFolder(getFileListFromFolder(getCurrentDirectoryPath()));
-        }
-    }
-
 
     // fileExplorerMessage() is a method used to separate message from functionality in the fileExplorer()
     private static void fileExplorerMessage(File[] inputFileListToExplore){
@@ -591,7 +523,7 @@ public class VirtualKeyForYourRepositories {
         //System.out.println(userInputLine); // Input in next line
         System.out.print(userInputLine); // Input in same line
     }
-    // fileExplorerMessage() is a method used to separate message from functionality in the fileExplorer()
+    // fileExplorer() presents content of a folder and gives General and file specific options to the user
     private static void fileExplorer(File[] inputFileListToExplore){
 
         File[] fileListToExplore = inputFileListToExplore;
@@ -649,7 +581,6 @@ public class VirtualKeyForYourRepositories {
             }
         }
     }
-
 
     // fileDetailsMessage() is a method used to separate message from functionality in the fileDetails()
     private static void fileDetailsMessage(File fileToProcess, double fileSizeInKiloBytes){
@@ -717,6 +648,21 @@ public class VirtualKeyForYourRepositories {
                 break;
         }
     }
+    // goToParentDirectory()
+    private static void goToParentDirectory(){
+        Path path = Paths.get(getCurrentDirectoryPath());
+        Path parentPath = path.getParent();
+        setCurrentDirectoryPath(parentPath.toString());
+        fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+    }
+    // goIntoDirectory()
+    private static void goIntoDirectory(){
+        //We need to change the currentDirectoryPath before calling this method, since this method is just calling the fileExplorer
+        fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+    }
+
+
+
 
 
     // createFileMessage() is a method used to separate message from functionality in the createFile()
@@ -852,19 +798,84 @@ public class VirtualKeyForYourRepositories {
     }
 
 
-    // goToParentDirectory()
-    private static void goToParentDirectory(){
-        Path path = Paths.get(getCurrentDirectoryPath());
-        Path parentPath = path.getParent();
-        setCurrentDirectoryPath(parentPath.toString());
-        fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+
+
+    // getFileListFromFolder lists files and folders from the currentDirectoryPath and returns an array of Files
+    private static File[] getFileListFromFolder(String pathToFolder){
+        File directoryPath = new File(pathToFolder);
+        File filesList[] = directoryPath.listFiles();
+        return filesList;
     }
-    // goIntoDirectory()
-    private static void goIntoDirectory(){
-        //We need to change the currentDirectoryPath before calling this method, since this method is just calling the fileExplorer
-        fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+    // sortAscending() sorts files it gets from getFileListFromFolder() to ascending order
+    private static File[] sortAscending(File[] fileListToSort){
+        Arrays.sort(fileListToSort);
+        return fileListToSort;
+    }
+    // sortDescending() sorts files it gets from getFileListFromFolder() to descending order
+    private static File[] sortDescending(File[] fileListToSort){
+
+        Arrays.sort(fileListToSort, Collections.reverseOrder());
+        return fileListToSort;
     }
 
+    // searchFolderMessage() is a method used to separate message from functionality in the searchFolder
+    private static void searchFolderMessage(){
+        //Message and console box
+        String firstLine = "[ Search Folder ]";
+        String userInputLine = "Please enter the term to search: ";
+        String lastLine = "[ Please Enter The Search Term Below ]";
+
+        System.out.println();
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Rule #1 This search will find only exact match for your search", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Rule #2 This search is not case sensitive", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Rule #3 If your file has extension you need to include it in your search", '|', ' '));
+        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Example: abc.txt & ABC.TXT are both valid search terms for a file abc.txt", '|', ' '));
+
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println();
+
+        //System.out.println(userInputLine); // Input in next line
+        System.out.print(userInputLine); // Input in same line
+    }
+    // searchFolder() gives user an option to check if a specific file or folder name exists in the directory and if it exists it enters the folder, or it shows file details
+    private static void searchFolder(File[] fileListToSearch){
+
+        searchFolderMessage();
+
+        Scanner scanner = new Scanner(System.in);
+        String termToSearch =scanner.next();
+
+        boolean foundIt = false;
+        if (fileListToSearch == null){
+            System.out.println();
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The folder is empty <<<", '-', '-'));
+            //System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The folder is empty <<<", '-', '-'));
+            waitSeconds(3);
+            fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+        }else{
+            for (int i = 0; i < fileListToSearch.length; i++) {
+                String fileName = fileListToSearch[i].getName();
+                if (fileName.equalsIgnoreCase(termToSearch)){
+                    // code if file found and change foundIt to true
+                    System.out.println();
+                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You found a file or folder named " + termToSearch + " <<<", '-', '-'));
+                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Lets see whats inside <<<", '-', '-'));
+                    fileDetails(fileListToSearch[i]);
+                    foundIt = true;
+                }
+            }
+        }
+        if (foundIt == false){
+            System.out.println();
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> There is no file or folder named " + termToSearch + " <<<", '-', '-'));
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
+            searchFolder(getFileListFromFolder(getCurrentDirectoryPath()));
+        }
+    }
 
 
 
