@@ -853,8 +853,8 @@ public class VirtualKeyForYourRepositories {
         if (fileListToSearch == null){
             System.out.println();
             System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The folder is empty <<<", '-', '-'));
-            //System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The folder is empty <<<", '-', '-'));
-            waitSeconds(3);
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Let's go back to the file explorer <<<", '-', '-'));
+            waitSeconds(2);
             fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
         }else{
             for (int i = 0; i < fileListToSearch.length; i++) {
@@ -870,12 +870,51 @@ public class VirtualKeyForYourRepositories {
             }
         }
         if (foundIt == false){
+            String firstLine = "[ Search Result NOT Found ]";
+            String userInputLine = "Please enter your choice here: ";
+            String lastLine = "[ Please Enter The Search Term Below ]";
+
             System.out.println();
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> There is no file or folder named " + termToSearch + " <<<", '-', '-'));
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
-            searchFolder(getFileListFromFolder(getCurrentDirectoryPath()));
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+
+            System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Seams there is no file or folder named: " + termToSearch, '|', ' '));
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+            System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[1] Search again", '|', ' '));
+            System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[2] Exit Search ", '|', ' '));
+
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+            System.out.println();
+
+            //System.out.println(userInputLine); // Input in next line
+            System.out.print(userInputLine); // Input in same line
+
+            int min = 1;
+            int max = 2;
+
+            int option;
+
+            //Getting validated option from user
+            option = userInput(min, max);
+
+            switch (option) {
+                case 1:
+                    searchFolder(getFileListFromFolder(getCurrentDirectoryPath()));
+                    break;
+                case 2:
+                    fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+                    break;
+            }
+
         }
+        // code here menu and option if the user wants to do another search or go back to the file explorer
+
+
+
     }
+
+
 
 
 
