@@ -150,7 +150,7 @@ public class VirtualKeyForYourRepositories {
         mainMessageContentList.add("Application Name: " + appName);
         mainMessageContentList.add("Application GitHub: " + gitHubAppLink);
 
-        buildMessageContent(firstLine, mainMessageContentList, lastLine);
+        buildMessageContent(firstLine, mainMessageContentList, lastLine, false);
     }
 
     //goodbyeMessage() is called when we want to exit the program
@@ -162,7 +162,7 @@ public class VirtualKeyForYourRepositories {
         mainMessageContentList.add("Thanks for trying my app!!!");
         mainMessageContentList.add("See you next time!!!");
 
-        buildMessageContent(firstLine, mainMessageContentList, lastLine);
+        buildMessageContent(firstLine, mainMessageContentList, lastLine, true);
     }
 
 
@@ -179,7 +179,7 @@ public class VirtualKeyForYourRepositories {
         mainMessageContentList.add("[1] Main Menu");
         mainMessageContentList.add("[2] Exit App");
 
-        buildMessageContent(firstLine, mainMessageContentList, lastLine);
+        buildMessageContent(firstLine, mainMessageContentList, lastLine, false);
         buildUserInputLine(userInputLine);
     }
     // developerInfo() displays developer info
@@ -217,7 +217,7 @@ public class VirtualKeyForYourRepositories {
         mainMessageContentList.add(" Step 2 > Open the folder and click on the folder icon in the address bar ");
         mainMessageContentList.add(" Step 3 > Copy the address link so you can past it in the next step");
 
-        buildMessageContent(firstLine, mainMessageContentList, lastLine);
+        buildMessageContent(firstLine, mainMessageContentList, lastLine, false);
         buildUserInputLine(userInputLine);
     }
     // setAppDirectoryPath() sets the path for the app folder at the beginning of the program
@@ -259,7 +259,7 @@ public class VirtualKeyForYourRepositories {
         mainMessageContentList.add(" Step 2 > Open the folder and click on the folder icon in the address bar ");
         mainMessageContentList.add(" Step 3 > Copy the address link so you can past it in the next step");
 
-        buildMessageContent(firstLine, mainMessageContentList, lastLine);
+        buildMessageContent(firstLine, mainMessageContentList, lastLine, false);
         buildUserInputLine(userInputLine);
 
     }
@@ -299,8 +299,13 @@ public class VirtualKeyForYourRepositories {
     // For this to work every other method calling those methods have to have min and max values
     // userInput() is called in every other method when we need a user input, other related methods below are helper methods to make it all work
     private static int userInput(int min, int max){
-        String userInputString = getUserInput();
+
+        Scanner scanner = new Scanner(System.in);
+        String userInputString = scanner.next();
+
         int userInputInteger;
+        int userInputIntegerNextTry;
+
         if (isInteger(userInputString)){
             userInputInteger = Integer.parseInt(userInputString);
             if (isInRange(userInputInteger, min, max)){
@@ -311,37 +316,32 @@ public class VirtualKeyForYourRepositories {
                 //System.out.println("");
                 return userInputInteger;
             }else{
-                // Message for wrong input
+                // Wrong input NOT IN RANGE
                 System.out.println("");
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: > " + userInputInteger + " < which is an invalid option <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: > " + userInputInteger + " < which is in not in range between " + min+"-"+max + " <<<", '-', '-'));
                 System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
-                //System.out.println("");
+                System.out.println("");
+                System.out.print("Please enter your choice here: ");
 
-                mainMenuMessage(); //Need to pass this method as a parameter, so it can dynamically change depending on who is calling the userInput()
-                userInputInteger = userInput(min, max);
-                return userInputInteger;
+                // It would be great to print the appropriate menu again
+                userInputIntegerNextTry = userInput(min, max);
+                return userInputIntegerNextTry;
             }
         }else{
-            // Message for wrong input
+            // Wrong input NOT AN INTEGER
             System.out.println("");
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: > " + userInputString + " < which is an invalid option <<<", '-', '-'));
+            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: > " + userInputString + " < which is NOT a WHOLE number <<<", '-', '-'));
             System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
-            //System.out.println("");
+            System.out.println("");
+            System.out.print("Please enter your choice here: ");
 
-            mainMenuMessage(); //Need to pass this method as a parameter, so it can dynamically change depending on who is calling the userInput()
-            userInputInteger = userInput(min, max);
-            return userInputInteger;
+            // It would be great to print the appropriate menu again
+            userInputIntegerNextTry = userInput(min, max);
+            return userInputIntegerNextTry;
         }
     }
     // getUserInput() takes user input as a string and sends it for further checks
-    private static String getUserInput(){
-        String userInputString;
-        Scanner scanner = new Scanner(System.in);
-        userInputString = scanner.next();
-        //scanner.close(); This was causing issues
 
-        return userInputString;
-    }
     // isInteger() checks if the user input is integer
     private static boolean isInteger(String stringToCheck){
         if (stringToCheck == null){
@@ -370,20 +370,35 @@ public class VirtualKeyForYourRepositories {
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
     }
-    private static void buildMessageContent(String firstLine, List mainMessageContentList, String lastLine){
+    private static void buildMessageContent(String firstLine, List mainMessageContentList, String lastLine, Boolean isCentered){
         buildFirstLine(firstLine);
 
-        for (int i = 0; i<mainMessageContentList.size(); i++){
-            System.out.println(lineBuilderLeftAligned(consoleBoxWidth, mainMessageContentList.get(i).toString(), '|', ' '));
+        if (isCentered){
+            for (int i = 0; i<mainMessageContentList.size(); i++){
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, mainMessageContentList.get(i).toString(), '|', ' '));
+            }
+        }else {
+            for (int i = 0; i<mainMessageContentList.size(); i++){
+                System.out.println(lineBuilderLeftAligned(consoleBoxWidth, mainMessageContentList.get(i).toString(), '|', ' '));
+            }
         }
 
         buildLastLine(lastLine);
     }
-    private static void buildMessageContent(List mainMessageContentList){
-        for (int i = 0; i<mainMessageContentList.size(); i++){
-            System.out.println(lineBuilderLeftAligned(consoleBoxWidth, mainMessageContentList.get(i).toString(), '|', ' '));
+    private static void buildMessageContent(List mainMessageContentList, Boolean isCentered){
+        if (isCentered){
+            for (int i = 0; i<mainMessageContentList.size(); i++){
+                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, mainMessageContentList.get(i).toString(), '|', ' '));
+            }
+        }else {
+            for (int i = 0; i<mainMessageContentList.size(); i++){
+                System.out.println(lineBuilderLeftAligned(consoleBoxWidth, mainMessageContentList.get(i).toString(), '|', ' '));
+            }
         }
     }
+
+
+
     private static void buildLastLine(String lastLine){
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
         System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
@@ -411,7 +426,7 @@ public class VirtualKeyForYourRepositories {
         mainMessageContentList.add("[5] Exit App");
 
 
-        buildMessageContent(firstLine, mainMessageContentList, lastLine);
+        buildMessageContent(firstLine, mainMessageContentList, lastLine, false);
         buildUserInputLine(userInputLine);
 
     }
@@ -473,7 +488,7 @@ public class VirtualKeyForYourRepositories {
         mainMessageContentList.add("");
 
         buildFirstLine(firstLine);
-        buildMessageContent(mainMessageContentList);
+        buildMessageContent(mainMessageContentList, false);
 
         if (inputFileListToExplore != null && inputFileListToExplore.length > 0){
             for (File file : inputFileListToExplore){
@@ -562,7 +577,7 @@ public class VirtualKeyForYourRepositories {
         mainMessageContentList.add("[3]" + " Delete file");
 
         buildFirstLine(firstLine);
-        buildMessageContent(mainMessageContentList);
+        buildMessageContent(mainMessageContentList, false);
         buildLastLine(lastLine);
         buildUserInputLine(userInputLine);
 
@@ -1009,4 +1024,13 @@ public class VirtualKeyForYourRepositories {
         return indexToReturn;
     }
 
+    // Not in use anymore
+    private static String getUserInput(){
+        String userInputString;
+        Scanner scanner = new Scanner(System.in);
+        userInputString = scanner.next();
+        //scanner.close(); This was causing issues
+
+        return userInputString;
+    }
 }
