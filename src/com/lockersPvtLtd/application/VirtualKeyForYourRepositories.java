@@ -13,10 +13,8 @@ public class VirtualKeyForYourRepositories {
 
 
     // Path variables
-    // It is the path provided by the user and can only be changed using setAppDirectoryPath() or updateAppDirectoryPath()
-    static String absoluteAppDirectoryPath;
-    // It is the path which changes as we navigate through fileExplorer by entering folders or by going to a parent folder
-    static String currentDirectoryPath;
+    static String absoluteAppDirectoryPath; // It is the path provided by the user and can only be changed using setAppDirectoryPath() or updateAppDirectoryPath()
+    static String currentDirectoryPath; // It is the path which changes as we navigate through fileExplorer by entering folders or by going to a parent folder
 
     // Path getters and setters
     public static String getCurrentDirectoryPath() {
@@ -66,7 +64,7 @@ public class VirtualKeyForYourRepositories {
 
         //Running the app
         welcomeMessage();
-        waitSeconds(3);
+        waitSeconds(2);
         setAppDirectoryPath();
         mainMenu();
 
@@ -94,21 +92,21 @@ public class VirtualKeyForYourRepositories {
     // lineBuilder methods help us to build lines in the console, for better presentation.
     private static String lineBuilderCenterAligned(int lineLength, String mainString, char firstAndLastPlaceHolder, char mainPlaceHolder){
         String line = "";
-        String prefix = "";
-        String postfix = "";
+        StringBuilder prefix = new StringBuilder();
+        StringBuilder postfix = new StringBuilder();
 
         int prefixLength = (lineLength - mainString.length())/2;
         int postfixLength = lineLength - mainString.length() - prefixLength;
 
         for (int i = 0; i < prefixLength; i++){
-            prefix+=mainPlaceHolder;
+            prefix.append(mainPlaceHolder);
         }
-        prefix = firstAndLastPlaceHolder + prefix;
+        prefix.insert(0, firstAndLastPlaceHolder);
 
         for (int i = 0; i < postfixLength; i++){
-            postfix+=mainPlaceHolder;
+            postfix.append(mainPlaceHolder);
         }
-        postfix = postfix + firstAndLastPlaceHolder;
+        postfix.append(firstAndLastPlaceHolder);
 
         line = prefix + mainString + postfix;
 
@@ -116,22 +114,22 @@ public class VirtualKeyForYourRepositories {
         return line;
     }
     private static String lineBuilderLeftAligned(int lineLength, String mainString, char firstAndLastPlaceHolder, char mainPlaceHolder){
-        String line = "";
-        String prefix = "";
-        String postfix = "";
+        String line;
+        StringBuilder prefix = new StringBuilder();
+        StringBuilder postfix = new StringBuilder();
 
         int prefixLength = 1;
         int postfixLength = lineLength - mainString.length() - prefixLength;
 
         for (int i = 0; i < prefixLength; i++){
-            prefix+=mainPlaceHolder;
+            prefix.append(mainPlaceHolder);
         }
-        prefix = firstAndLastPlaceHolder + prefix;
+        prefix.insert(0, firstAndLastPlaceHolder);
 
         for (int i = 0; i < postfixLength; i++){
-            postfix+=mainPlaceHolder;
+            postfix.append(mainPlaceHolder);
         }
-        postfix = postfix + firstAndLastPlaceHolder;
+        postfix.append(firstAndLastPlaceHolder);
 
         line = prefix + mainString + postfix;
 
@@ -145,23 +143,14 @@ public class VirtualKeyForYourRepositories {
     // welcomeMessage() is the first method to call, it greats the user.
     private static void welcomeMessage(){
         String firstLine = "[ Welcome ]";
-        String developerLine = "Application Developer : " + developerName;
-        String applicationLine = "Application Name: " + appName;
-        String gitHubLine = "Application GitHub: ";
         String lastLine = "[ Next steps are below ]";
 
-        System.out.println();
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        List<String> mainMessageContentList = new ArrayList<>();
+        mainMessageContentList.add("Application Developer : " + developerName);
+        mainMessageContentList.add("Application Name: " + appName);
+        mainMessageContentList.add("Application GitHub: " + gitHubAppLink);
 
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, developerLine, '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, applicationLine, '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, gitHubLine + " " + gitHubAppLink, '|', ' '));
-        //Below is the code in case you want to print the GitHub link in new line
-        //System.out.println(lineBuilderLeftAligned(consoleBoxWidth, gitHubAppLink, '|', ' '));
-
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        buildMessageContent(firstLine, mainMessageContentList, lastLine);
     }
 
     //goodbyeMessage() is called when we want to exit the program
@@ -169,56 +158,38 @@ public class VirtualKeyForYourRepositories {
         String firstLine = "[ Goodbye ]";
         String lastLine = "***";
 
-        System.out.println();
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        List<String> mainMessageContentList = new ArrayList<>();
+        mainMessageContentList.add("Thanks for trying my app!!!");
+        mainMessageContentList.add("See you next time!!!");
 
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "Thanks for trying my app!!!", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "See you next time!!!", '|', ' '));
-
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
-        //System.out.println();
+        buildMessageContent(firstLine, mainMessageContentList, lastLine);
     }
 
-    // developerInfo() displays developer info
-    private static void developerInfo(){
+
+    private static void developerInfoMessage(){
         String firstLine = "[ Developer Info ]";
         String userInputLine = "Please enter your choice here: ";
         String lastLine = "[ Next steps are below ]";
 
-        String developerName = "App Developer : " + VirtualKeyForYourRepositories.developerName;
-        String developerLinkedin = "LinkedIn: " + VirtualKeyForYourRepositories.developerLinkedin;
-        String gitHubLine = "Application GitHub: ";
+        List<String> mainMessageContentList = new ArrayList<>();
+        mainMessageContentList.add("Application Developer : " + developerName);
+        mainMessageContentList.add("LinkedIn: " + developerLinkedin);
+        mainMessageContentList.add("Application GitHub: " + gitHubAppLink);
+        mainMessageContentList.add("");
+        mainMessageContentList.add("[1] Main Menu");
+        mainMessageContentList.add("[2] Exit App");
 
+        buildMessageContent(firstLine, mainMessageContentList, lastLine);
+        buildUserInputLine(userInputLine);
+    }
+    // developerInfo() displays developer info
+    private static void developerInfo(){
 
-        System.out.println();
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, developerName, '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, developerLinkedin, '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, gitHubLine + " " + gitHubAppLink, '|', ' '));
-        //Below is the code in case you want to print the GitHub link in new line
-        //System.out.println(lineBuilderLeftAligned(consoleBoxWidth, gitHubAppLink, '|', ' '));
-
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[1] Main Menu", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[2] Exit App", '|', ' '));
-
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
-        System.out.println();
-
-        //System.out.println(userInputLine); // Input in next line
-        System.out.print(userInputLine); // Input in same line
+        developerInfoMessage();
 
         int min = 1;
         int max = 2;
-
         int option;
-
         //Getting validated option from user
         option = userInput(min, max);
 
@@ -241,20 +212,13 @@ public class VirtualKeyForYourRepositories {
         String userInputLine = "Please paste or enter your absolute working directory path here: ";
         String lastLine = "[ Now we need to past or enter the path down below ]";
 
-        System.out.println();
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        List<String> mainMessageContentList = new ArrayList<>();
+        mainMessageContentList.add(" Step 1 > Create a folder on your PC and give it one word name");
+        mainMessageContentList.add(" Step 2 > Open the folder and click on the folder icon in the address bar ");
+        mainMessageContentList.add(" Step 3 > Copy the address link so you can past it in the next step");
 
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 1 > Create a folder on your PC and give it one word name", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 2 > Open the folder and click on the folder icon in the address bar ", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 3 > Copy the address link so you can past it in the next step", '|', ' '));
-
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
-        System.out.println();
-
-        //System.out.println(userInputLine); // Input in next line
-        System.out.print(userInputLine); // Input in same line
+        buildMessageContent(firstLine, mainMessageContentList, lastLine);
+        buildUserInputLine(userInputLine);
     }
     // setAppDirectoryPath() sets the path for the app folder at the beginning of the program
     private static void setAppDirectoryPath() {
@@ -290,20 +254,14 @@ public class VirtualKeyForYourRepositories {
         String userInputLine = "Please paste or enter your absolute working directory path here: ";
         String lastLine = "[ Now we need to past or enter the path down below ]";
 
-        System.out.println();
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        List<String> mainMessageContentList = new ArrayList<>();
+        mainMessageContentList.add(" Step 1 > Find a folder on your PC you want to make app directory");
+        mainMessageContentList.add(" Step 2 > Open the folder and click on the folder icon in the address bar ");
+        mainMessageContentList.add(" Step 3 > Copy the address link so you can past it in the next step");
 
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 1 > Find a folder on your PC you want to make app directory", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 2 > Open the folder and click on the folder icon in the address bar ", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 3 > Copy the address link so you can past it in the next step", '|', ' '));
+        buildMessageContent(firstLine, mainMessageContentList, lastLine);
+        buildUserInputLine(userInputLine);
 
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
-        System.out.println();
-
-        //System.out.println(userInputLine); // Input in next line
-        System.out.print(userInputLine); // Input in same line
     }
     // updateAppDirectoryPath() is a method that gives user an option to change the absoluteAppDirectoryPath, and therefore it also updates the currentDirectoryPath
     private static void updateAppDirectoryPath() {
@@ -406,31 +364,56 @@ public class VirtualKeyForYourRepositories {
     }
 
 
+    // Messages for methods
+    private static void buildFirstLine(String firstLine){
+        System.out.println();
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+    }
+    private static void buildMessageContent(String firstLine, List mainMessageContentList, String lastLine){
+        buildFirstLine(firstLine);
+
+        for (int i = 0; i<mainMessageContentList.size(); i++){
+            System.out.println(lineBuilderLeftAligned(consoleBoxWidth, mainMessageContentList.get(i).toString(), '|', ' '));
+        }
+
+        buildLastLine(lastLine);
+    }
+    private static void buildMessageContent(List mainMessageContentList){
+        for (int i = 0; i<mainMessageContentList.size(); i++){
+            System.out.println(lineBuilderLeftAligned(consoleBoxWidth, mainMessageContentList.get(i).toString(), '|', ' '));
+        }
+    }
+    private static void buildLastLine(String lastLine){
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println();
+    }
+    private static void buildUserInputLine(String userInputLine){
+        System.out.print(userInputLine);
+    }
+
 
 
     // mainMenuMessage() is a method used to separate message from functionality in the mainMenu()
     private static void mainMenuMessage(){
-        // Message
+
+        //creating the console look
         String firstLine = "[ Main Menu ]";
         String userInputLine = "Please enter your choice here: ";
         String lastLine = "[ Please Enter Your Choice Below ]";
 
-        System.out.println();
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        List<String> mainMessageContentList = new ArrayList<>();
+        mainMessageContentList.add("[1] File Explorer");
+        mainMessageContentList.add("[2] Update working directory path");
+        mainMessageContentList.add("[3] Developer Info");
+        mainMessageContentList.add("[4] Restart App");
+        mainMessageContentList.add("[5] Exit App");
 
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[1] File Explorer", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[2] Update working directory path", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[3] Developer Info", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[4] Restart App", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[5] Exit App", '|', ' '));
 
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
-        System.out.println();
+        buildMessageContent(firstLine, mainMessageContentList, lastLine);
+        buildUserInputLine(userInputLine);
 
-        //System.out.println(userInputLine); // Input in next line
-        System.out.print(userInputLine); // Input in same line
     }
     // mainMenu() method is the main menu presented to the user
     private static void mainMenu(){
@@ -471,38 +454,29 @@ public class VirtualKeyForYourRepositories {
     // fileExplorerMessage() is a method used to separate message from functionality in the fileExplorer()
     private static void fileExplorerMessage(File[] inputFileListToExplore){
 
-        File[] fileListToExplore = inputFileListToExplore;
-
         //creating the console look
         String firstLine = "[ File Explorer ]";
         String userInputLine = "Please enter your choice here: ";
         String lastLine = "[ Please Enter Your Choice Below ]";
 
-        //Top of the box in the console
-        System.out.println();
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        List<String> mainMessageContentList = new ArrayList<>();
+        mainMessageContentList.add("General File Explorer options:");
+        mainMessageContentList.add("");
+        mainMessageContentList.add("["+(++numberingInFileExplorer)+"]" + " Go to Main Menu");
+        mainMessageContentList.add("["+(++numberingInFileExplorer)+"]" + " Go to parent directory");
+        mainMessageContentList.add("["+(++numberingInFileExplorer)+"]" + " Create a file");
+        mainMessageContentList.add("["+(++numberingInFileExplorer)+"]" + " Sort file ascending");
+        mainMessageContentList.add("["+(++numberingInFileExplorer)+"]" + " Sort file descending");
+        mainMessageContentList.add("["+(++numberingInFileExplorer)+"]" + " Search folder");
+        mainMessageContentList.add("");
+        mainMessageContentList.add("Select a file for details and more options:");
+        mainMessageContentList.add("");
 
-        //Main content of the box in the console
-        //General File Explorer options
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "General File Explorer options:", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Go to Main Menu", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Go to parent directory", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Create a file", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Sort file ascending", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Sort file descending", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " Search folder", '|', ' '));
+        buildFirstLine(firstLine);
+        buildMessageContent(mainMessageContentList);
 
-        //File
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Select a file for details and more options:", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-
-        //Convert this below in a method if possible
-
-        if (fileListToExplore != null && fileListToExplore.length > 0){
-            for (File file : fileListToExplore){
+        if (inputFileListToExplore != null && inputFileListToExplore.length > 0){
+            for (File file : inputFileListToExplore){
                 ++loopIterations;
                 // Check if the file is a directory
                 if (file.isDirectory()){
@@ -513,31 +487,22 @@ public class VirtualKeyForYourRepositories {
             }
         }
 
-        //Bottom of the box in the console
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
-        System.out.println();
-
-
-
-        //System.out.println(userInputLine); // Input in next line
-        System.out.print(userInputLine); // Input in same line
+        buildLastLine(lastLine);
+        buildUserInputLine(userInputLine);
     }
     // fileExplorer() presents content of a folder and gives General and file specific options to the user
     private static void fileExplorer(File[] inputFileListToExplore){
 
-        File[] fileListToExplore = inputFileListToExplore;
+
         //Restarting the numberingInFileExplorer and loopIterations on each fileExplorer() call
         numberingInFileExplorer = 0;
         loopIterations = 0;
 
-        fileExplorerMessage(fileListToExplore);
+        fileExplorerMessage(inputFileListToExplore);
 
         int min = 1;
         int max = numberingInFileExplorer;
-
         int option;
-
         option = userInput(min, max);
 
         //Switch General menu
@@ -554,11 +519,9 @@ public class VirtualKeyForYourRepositories {
                 fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
                 break;
             case 4:
-
                 fileExplorer(sortAscending(getFileListFromFolder(getCurrentDirectoryPath())));
                 break;
             case 5:
-
                 fileExplorer(sortDescending(getFileListFromFolder(getCurrentDirectoryPath())));
                 break;
             case 6:
@@ -568,7 +531,7 @@ public class VirtualKeyForYourRepositories {
 
         //Files and Folders Menu control down below
         if (option>6 && option<=numberingInFileExplorer){
-            File fileToProcess = fileListToExplore[(option-(numberingInFileExplorer-loopIterations))-1];
+            File fileToProcess = inputFileListToExplore[(option-(numberingInFileExplorer-loopIterations))-1];
             if (fileToProcess.isDirectory()){
                 // If option selected is a folder
                 // setCurrentDirectoryPath
@@ -589,27 +552,20 @@ public class VirtualKeyForYourRepositories {
         String userInputLine = "Please enter your choice here: ";
         String lastLine = "[ Please Enter Your Choice Below ]";
 
+        List<String> mainMessageContentList = new ArrayList<>();
+        mainMessageContentList.add("File name: " + fileToProcess.getName());
+        mainMessageContentList.add("File path: " + fileToProcess.getAbsolutePath());
+        mainMessageContentList.add("File size: " + String.format("%.5f", fileSizeInKiloBytes)  + " kilobytes");
+        mainMessageContentList.add("");
+        mainMessageContentList.add("[1]" + " Go to Main Menu");
+        mainMessageContentList.add("[2]" + " Exit details");
+        mainMessageContentList.add("[3]" + " Delete file");
 
-        System.out.println();
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        buildFirstLine(firstLine);
+        buildMessageContent(mainMessageContentList);
+        buildLastLine(lastLine);
+        buildUserInputLine(userInputLine);
 
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File name: " + fileToProcess.getName() +  "", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File path: " + fileToProcess.getAbsolutePath() +  "", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File size: " + String.format("%.5f", fileSizeInKiloBytes)  + " kilobytes" , '|', ' '));
-
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[1]" + " Go to Main Menu", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[2]" + " Exit details", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[3]" + " Delete file", '|', ' '));
-
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
-        System.out.println();
-
-        //System.out.println(userInputLine); // Input in next line
-        System.out.print(userInputLine); // Input in same line
     }
     // fileDetails() lists the details of a selected file and offers an option to delete the file
     private static void fileDetails(File fileToProcess){
