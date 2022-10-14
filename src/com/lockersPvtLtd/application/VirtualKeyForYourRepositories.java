@@ -16,27 +16,11 @@ public class VirtualKeyForYourRepositories {
     static String absoluteAppDirectoryPath; // It is the path provided by the user and can only be changed using setAppDirectoryPath() or updateAppDirectoryPath()
     static String currentDirectoryPath; // It is the path which changes as we navigate through fileExplorer by entering folders or by going to a parent folder
 
-    // Path getters and setters
-    public static String getCurrentDirectoryPath() {
-        return currentDirectoryPath;
-    }
-    public static void setCurrentDirectoryPath(String currentDirectoryPath) {
-        VirtualKeyForYourRepositories.currentDirectoryPath = currentDirectoryPath;
-    }
-    public static String getAbsoluteAppDirectoryPath() {
-        return absoluteAppDirectoryPath;
-    }
-    public static void setAbsoluteAppDirectoryPath(String absoluteAppDirectoryPath) {
-        VirtualKeyForYourRepositories.absoluteAppDirectoryPath = absoluteAppDirectoryPath;
-    }
-
-
 
 
     // Other global variables
     static String appName = "Virtual Key For Your Repositories";
-    static int consoleBoxWidth = 100; //Suggested minimum is 90
-
+    static int consoleBoxWidth = 100; //It is the width of the console text box, suggested minimum is 90
     static String gitHubAppLink = "https://github.com/Drazen-BBG/SimpliLearn_OOPS_Project";
     static String developerName = "Drazen Drinic";
     static String developerLinkedin = "https://www.linkedin.com/in/drazendrinic/";
@@ -47,12 +31,69 @@ public class VirtualKeyForYourRepositories {
 
 
 
+    // Getters and Setters
+    public static String getAbsoluteAppDirectoryPath() {
+        return absoluteAppDirectoryPath;
+    }
+    public static void setAbsoluteAppDirectoryPath(String absoluteAppDirectoryPath) {
+        VirtualKeyForYourRepositories.absoluteAppDirectoryPath = absoluteAppDirectoryPath;
+    }
+    public static String getCurrentDirectoryPath() {
+        return currentDirectoryPath;
+    }
+    public static void setCurrentDirectoryPath(String currentDirectoryPath) {
+        VirtualKeyForYourRepositories.currentDirectoryPath = currentDirectoryPath;
+    }
+    public static String getAppName() {
+        return appName;
+    }
+    public static void setAppName(String appName) {
+        VirtualKeyForYourRepositories.appName = appName;
+    }
+    public static int getConsoleBoxWidth() {
+        return consoleBoxWidth;
+    }
+    public static void setConsoleBoxWidth(int consoleBoxWidth) {
+        VirtualKeyForYourRepositories.consoleBoxWidth = consoleBoxWidth;
+    }
+    public static String getGitHubAppLink() {
+        return gitHubAppLink;
+    }
+    public static void setGitHubAppLink(String gitHubAppLink) {
+        VirtualKeyForYourRepositories.gitHubAppLink = gitHubAppLink;
+    }
+    public static String getDeveloperName() {
+        return developerName;
+    }
+    public static void setDeveloperName(String developerName) {
+        VirtualKeyForYourRepositories.developerName = developerName;
+    }
+    public static String getDeveloperLinkedin() {
+        return developerLinkedin;
+    }
+    public static void setDeveloperLinkedin(String developerLinkedin) {
+        VirtualKeyForYourRepositories.developerLinkedin = developerLinkedin;
+    }
+    public static int getNumberingInFileExplorer() {
+        return numberingInFileExplorer;
+    }
+    public static void setNumberingInFileExplorer(int numberingInFileExplorer) {
+        VirtualKeyForYourRepositories.numberingInFileExplorer = numberingInFileExplorer;
+    }
+    public static int getLoopIterations() {
+        return loopIterations;
+    }
+    public static void setLoopIterations(int loopIterations) {
+        VirtualKeyForYourRepositories.loopIterations = loopIterations;
+    }
+
+
+
 
     // main()
     public static void main(String[] args) {
         startApp();
     }
-
 
 
 
@@ -146,9 +187,9 @@ public class VirtualKeyForYourRepositories {
         String lastLine = "[ Next steps are below ]";
 
         List<String> mainMessageContentList = new ArrayList<>();
-        mainMessageContentList.add("Application Developer : " + developerName);
-        mainMessageContentList.add("Application Name: " + appName);
-        mainMessageContentList.add("Application GitHub: " + gitHubAppLink);
+        mainMessageContentList.add("Application Developer : " + getDeveloperName());
+        mainMessageContentList.add("Application Name: " + getAppName());
+        mainMessageContentList.add("Application GitHub: " + getGitHubAppLink());
 
         buildMessageContent(firstLine, mainMessageContentList, lastLine, false);
     }
@@ -172,9 +213,9 @@ public class VirtualKeyForYourRepositories {
         String lastLine = "[ Next steps are below ]";
 
         List<String> mainMessageContentList = new ArrayList<>();
-        mainMessageContentList.add("Application Developer : " + developerName);
-        mainMessageContentList.add("LinkedIn: " + developerLinkedin);
-        mainMessageContentList.add("Application GitHub: " + gitHubAppLink);
+        mainMessageContentList.add("Application Developer : " + getDeveloperName());
+        mainMessageContentList.add("LinkedIn: " + getDeveloperLinkedin());
+        mainMessageContentList.add("Application GitHub: " + getGitHubAppLink());
         mainMessageContentList.add("");
         mainMessageContentList.add("[1] Main Menu");
         mainMessageContentList.add("[2] Exit App");
@@ -232,18 +273,18 @@ public class VirtualKeyForYourRepositories {
         System.out.println("");
 
         if(Pattern.matches("((\\/)+|(\\\\)+)", tempPath)) {
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Seams your input was invalid <<<", '+', '-'));
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Check the instructions below and try again <<<", '+', '-'));
+            System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Seams your input was invalid <<<", '+', '-'));
+            System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Check the instructions below and try again <<<", '+', '-'));
             setAppDirectoryPath();
         }else {
             if (new File(tempPath).exists() && new File(tempPath).isDirectory()){
                 setCurrentDirectoryPath(tempPath);
                 setAbsoluteAppDirectoryPath(tempPath);
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Thanks for setting the absolute working directory path <<<", '-', '-'));
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The path is: " + tempPath + " <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Thanks for setting the absolute working directory path <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> The path is: " + tempPath + " <<<", '-', '-'));
             }else{
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Seams your input was invalid <<<", '-', '-'));
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Check the instructions below and try again <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Seams your input was invalid <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Check the instructions below and try again <<<", '-', '-'));
                 setAppDirectoryPath();
             }
         }
@@ -275,18 +316,18 @@ public class VirtualKeyForYourRepositories {
         System.out.println("");
 
         if(Pattern.matches("((\\/)+|(\\\\)+)", tempPath)) {
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Seams your input was invalid <<<", '+', '-'));
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Check the instructions below and try again <<<", '+', '-'));
+            System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Seams your input was invalid <<<", '+', '-'));
+            System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Check the instructions below and try again <<<", '+', '-'));
             setAppDirectoryPath();
         }else {
             if (new File(tempPath).exists() && new File(tempPath).isDirectory()){
                 setCurrentDirectoryPath(tempPath);
                 setAbsoluteAppDirectoryPath(tempPath);
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Thanks for updating the absolute working directory path <<<", '-', '-'));
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The path is: " + tempPath + " <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Thanks for updating the absolute working directory path <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> The path is: " + tempPath + " <<<", '-', '-'));
             }else{
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Seams your input was invalid <<<", '-', '-'));
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Check the instructions below and try again <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Seams your input was invalid <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Check the instructions below and try again <<<", '-', '-'));
                 setAppDirectoryPath();
             }
         }
@@ -311,15 +352,15 @@ public class VirtualKeyForYourRepositories {
             if (isInRange(userInputInteger, min, max)){
                 // Message for valid input
                 System.out.println("");
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: > " + userInputInteger + " < which is a valid option <<<", '-', '-'));
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Thanks For Your Input <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> You entered: > " + userInputInteger + " < which is a valid option <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Thanks For Your Input <<<", '-', '-'));
                 //System.out.println("");
                 return userInputInteger;
             }else{
                 // Wrong input NOT IN RANGE
                 System.out.println("");
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: > " + userInputInteger + " < which is in not in range between " + min+"-"+max + " <<<", '-', '-'));
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> You entered: > " + userInputInteger + " < which is in not in range between " + min+"-"+max + " <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Please try again <<<", '-', '-'));
                 System.out.println("");
                 System.out.print("Please enter your choice here: ");
 
@@ -330,17 +371,15 @@ public class VirtualKeyForYourRepositories {
         }else{
             // Wrong input NOT AN INTEGER
             System.out.println("");
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You entered: > " + userInputString + " < which is NOT a WHOLE number <<<", '-', '-'));
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
+            System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> You entered: > " + userInputString + " < which is NOT a WHOLE number <<<", '-', '-'));
+            System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Please try again <<<", '-', '-'));
             System.out.println("");
             System.out.print("Please enter your choice here: ");
 
-            // It would be great to print the appropriate menu again
             userInputIntegerNextTry = userInput(min, max);
             return userInputIntegerNextTry;
         }
     }
-    // getUserInput() takes user input as a string and sends it for further checks
 
     // isInteger() checks if the user input is integer
     private static boolean isInteger(String stringToCheck){
@@ -364,46 +403,50 @@ public class VirtualKeyForYourRepositories {
     }
 
 
-    // Messages for methods
+
+    // Message builder methods
+
+    // buildFirstLine()
     private static void buildFirstLine(String firstLine){
         System.out.println();
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), firstLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), "", '|', ' '));
     }
+    // buildMessageContent()
+    private static void buildMessageContent(List mainMessageContentList, Boolean isCentered){
+        if (isCentered){
+            for (int i = 0; i<mainMessageContentList.size(); i++){
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), mainMessageContentList.get(i).toString(), '|', ' '));
+            }
+        }else {
+            for (int i = 0; i<mainMessageContentList.size(); i++){
+                System.out.println(lineBuilderLeftAligned(getConsoleBoxWidth(), mainMessageContentList.get(i).toString(), '|', ' '));
+            }
+        }
+    }
+    // buildMessageContent() with buildFirstLine() and buildLastLine() included
     private static void buildMessageContent(String firstLine, List mainMessageContentList, String lastLine, Boolean isCentered){
         buildFirstLine(firstLine);
 
         if (isCentered){
             for (int i = 0; i<mainMessageContentList.size(); i++){
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, mainMessageContentList.get(i).toString(), '|', ' '));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), mainMessageContentList.get(i).toString(), '|', ' '));
             }
         }else {
             for (int i = 0; i<mainMessageContentList.size(); i++){
-                System.out.println(lineBuilderLeftAligned(consoleBoxWidth, mainMessageContentList.get(i).toString(), '|', ' '));
+                System.out.println(lineBuilderLeftAligned(getConsoleBoxWidth(), mainMessageContentList.get(i).toString(), '|', ' '));
             }
         }
 
         buildLastLine(lastLine);
     }
-    private static void buildMessageContent(List mainMessageContentList, Boolean isCentered){
-        if (isCentered){
-            for (int i = 0; i<mainMessageContentList.size(); i++){
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, mainMessageContentList.get(i).toString(), '|', ' '));
-            }
-        }else {
-            for (int i = 0; i<mainMessageContentList.size(); i++){
-                System.out.println(lineBuilderLeftAligned(consoleBoxWidth, mainMessageContentList.get(i).toString(), '|', ' '));
-            }
-        }
-    }
-
-
-
+    // buildLastLine()
     private static void buildLastLine(String lastLine){
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
+        System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), "", '|', ' '));
+        System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), lastLine, '+', '-'));
         System.out.println();
     }
+    // buildUserInputLine()
     private static void buildUserInputLine(String userInputLine){
         System.out.print(userInputLine);
     }
@@ -435,16 +478,16 @@ public class VirtualKeyForYourRepositories {
 
         mainMenuMessage();
 
+        // Setting min and max range
         int min = 1;
         int max = 5;
-
         int option;
-
         //Getting validated option from user
         option = userInput(min, max);
 
         switch (option){
             case 1:
+                setCurrentDirectoryPath(getAbsoluteAppDirectoryPath());
                 fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
                 break;
             case 2:
@@ -495,9 +538,9 @@ public class VirtualKeyForYourRepositories {
                 ++loopIterations;
                 // Check if the file is a directory
                 if (file.isDirectory()){
-                    System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " " + file.getName() + " [Folder]", '|', ' '));
+                    System.out.println(lineBuilderLeftAligned(getConsoleBoxWidth(), "["+(++numberingInFileExplorer)+"]" + " " + file.getName() + " [Folder]", '|', ' '));
                 }else {
-                    System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "["+(++numberingInFileExplorer)+"]" + " " + file.getName(), '|', ' '));
+                    System.out.println(lineBuilderLeftAligned(getConsoleBoxWidth(), "["+(++numberingInFileExplorer)+"]" + " " + file.getName(), '|', ' '));
                 }
             }
         }
@@ -507,16 +550,15 @@ public class VirtualKeyForYourRepositories {
     }
     // fileExplorer() presents content of a folder and gives General and file specific options to the user
     private static void fileExplorer(File[] inputFileListToExplore){
-
-
         //Restarting the numberingInFileExplorer and loopIterations on each fileExplorer() call
-        numberingInFileExplorer = 0;
-        loopIterations = 0;
+        setNumberingInFileExplorer(0);
+        setLoopIterations(0);
 
         fileExplorerMessage(inputFileListToExplore);
 
+        // Setting min and max range
         int min = 1;
-        int max = numberingInFileExplorer;
+        int max = getNumberingInFileExplorer();
         int option;
         option = userInput(min, max);
 
@@ -545,20 +587,21 @@ public class VirtualKeyForYourRepositories {
         }
 
         //Files and Folders Menu control down below
-        if (option>6 && option<=numberingInFileExplorer){
-            File fileToProcess = inputFileListToExplore[(option-(numberingInFileExplorer-loopIterations))-1];
+        if (option>6 && option<=getNumberingInFileExplorer()){
+            File fileToProcess = inputFileListToExplore[(option-(getNumberingInFileExplorer()-getLoopIterations()))-1];
             if (fileToProcess.isDirectory()){
                 // If option selected is a folder
                 // setCurrentDirectoryPath
                 setCurrentDirectoryPath(fileToProcess.getPath());
-                // Go into the folder using previously set path
-                goIntoDirectory();
+                directoryDetails(fileToProcess);
             }else {
                 // If bot a folder it must be than a file so let's see its details using the fileDetails() method
                 fileDetails(fileToProcess);
             }
         }
     }
+
+
 
     // fileDetailsMessage() is a method used to separate message from functionality in the fileDetails()
     private static void fileDetailsMessage(File fileToProcess, double fileSizeInKiloBytes){
@@ -573,40 +616,36 @@ public class VirtualKeyForYourRepositories {
         mainMessageContentList.add("File size: " + String.format("%.5f", fileSizeInKiloBytes)  + " kilobytes");
         mainMessageContentList.add("");
         mainMessageContentList.add("[1]" + " Go to Main Menu");
-        mainMessageContentList.add("[2]" + " Exit details");
+        mainMessageContentList.add("[2]" + " Exit file details");
         mainMessageContentList.add("[3]" + " Delete file");
 
-        buildFirstLine(firstLine);
-        buildMessageContent(mainMessageContentList, false);
-        buildLastLine(lastLine);
+        buildMessageContent(firstLine, mainMessageContentList, lastLine, false);
         buildUserInputLine(userInputLine);
-
     }
     // fileDetails() lists the details of a selected file and offers an option to delete the file
     private static void fileDetails(File fileToProcess){
-        Path path = Paths.get(fileToProcess.getAbsolutePath());
+        Path fileToProcessPath = Paths.get(fileToProcess.getAbsolutePath());
         double fileSize = 0;
         try {
-            fileSize = Files.size(path);
+            fileSize = Files.size(fileToProcessPath);
         }catch (IOException e){
             e.printStackTrace();
             //Make a code to try again
         }
         double fileSizeInKiloBytes = fileSize/2024;
 
-        // fileDetailsMessage()
         fileDetailsMessage(fileToProcess, fileSizeInKiloBytes);
 
+        // Setting min and max range
         int min = 1;
         int max = 3;
-
         int option;
-
         //Getting validated option from user
         option = userInput(min, max);
 
         switch (option) {
             case 1:
+                setCurrentDirectoryPath(getAbsoluteAppDirectoryPath());
                 mainMenu();
                 break;
             case 2:
@@ -619,10 +658,61 @@ public class VirtualKeyForYourRepositories {
                 break;
         }
     }
+    // directoryDetailsMessage() is a method used to separate message from functionality in the directoryDetails()
+    private static void directoryDetailsMessage(File fileToProcess, double fileSizeInKiloBytes){
+        //creating the console look
+        String firstLine = "[ Directory details ]";
+        String userInputLine = "Please enter your choice here: ";
+        String lastLine = "[ Please Enter Your Choice Below ]";
+
+        List<String> mainMessageContentList = new ArrayList<>();
+        mainMessageContentList.add("Directory name: " + fileToProcess.getName());
+        mainMessageContentList.add("Directory path: " + fileToProcess.getAbsolutePath());
+        mainMessageContentList.add("Directory size: " + String.format("%.5f", fileSizeInKiloBytes)  + " kilobytes");
+        mainMessageContentList.add("");
+        mainMessageContentList.add("[1]" + " Go to Main Menu");
+        mainMessageContentList.add("[2]" + " Exit directory details");
+        mainMessageContentList.add("[3]" + " Enter directory");
+
+        buildMessageContent(firstLine, mainMessageContentList, lastLine, false);
+        buildUserInputLine(userInputLine);
+    }
+    // directoryDetails() lists the details of a selected directory and offers an option to enter the directory
+    private static void directoryDetails(File fileToProcess){
+        Path fileToProcessPath = Paths.get(fileToProcess.getAbsolutePath());
+        double fileSize = 0;
+        try {
+            fileSize = Files.size(fileToProcessPath);
+        }catch (IOException e){
+            e.printStackTrace();
+            //Make a code to try again
+        }
+        double fileSizeInKiloBytes = fileSize/2024;
+
+        directoryDetailsMessage(fileToProcess, fileSizeInKiloBytes);
+
+        // Setting min and max range
+        int min = 1;
+        int max = 3;
+        int option;
+        //Getting validated option from user
+        option = userInput(min, max);
+
+        switch (option) {
+            case 1:
+                mainMenu();
+                break;
+            case 2:
+                goToParentDirectory();
+                break;
+            case 3:
+                goIntoDirectory();
+        }
+    }
     // goToParentDirectory()
     private static void goToParentDirectory(){
-        Path path = Paths.get(getCurrentDirectoryPath());
-        Path parentPath = path.getParent();
+        Path currentDirectoryPath = Paths.get(getCurrentDirectoryPath());
+        Path parentPath = currentDirectoryPath.getParent();
         setCurrentDirectoryPath(parentPath.toString());
         fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
     }
@@ -638,25 +728,18 @@ public class VirtualKeyForYourRepositories {
 
     // createFileMessage() is a method used to separate message from functionality in the createFile()
     private static void createFileMessage(){
-        //Message and console box
+        //creating the console look
         String firstLine = "[ Create File ]";
         String userInputLine = "Please enter file name here: ";
         String lastLine = "[ Please Enter The File Name Below ]";
 
-        System.out.println();
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        List<String> mainMessageContentList = new ArrayList<>();
+        mainMessageContentList.add(" Step 1 > You will need to know the name for your file and its extension");
+        mainMessageContentList.add(" Step 2 > Write your file name in this format <fileName.extension>");
+        mainMessageContentList.add(" Example > MyTextFile.txt");
 
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 1 > You will need to know the name for your file and its extension", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Step 2 > Write your file name in this format <fileName.extension>", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, " Example > MyTextFile.txt", '|', ' '));
-
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
-        System.out.println();
-
-        //System.out.println(userInputLine); // Input in next line
-        System.out.print(userInputLine); // Input in same line
+        buildMessageContent(firstLine, mainMessageContentList, lastLine, false);
+        buildUserInputLine(userInputLine);
     }
     // createFile() creates a new file in the folder we were seeing using fileExplorer()
     private static void crateFile(){
@@ -672,22 +755,22 @@ public class VirtualKeyForYourRepositories {
             if(!file.exists()) {
                 if(file.createNewFile()) {
                     System.out.println();
-                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Your file: " +  file.getName() + " was created. <<<", '-', '-'));
-                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The file path is: " + file.getAbsolutePath() + " <<<", '-', '-'));
+                    System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Your file: " +  file.getName() + " was created. <<<", '-', '-'));
+                    System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> The file path is: " + file.getAbsolutePath() + " <<<", '-', '-'));
                     waitSeconds(2);
                     fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
                 }else {
                     //If you can't create file
                     System.out.println();
-                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Something went wrong!!! The file was not created. <<<", '-', '-'));
-                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again <<<", '-', '-'));
+                    System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Something went wrong!!! The file was not created. <<<", '-', '-'));
+                    System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Please try again <<<", '-', '-'));
                     crateFile();
                 }
             }else {
                 //if already exists
                 System.out.println();
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> File with this name already exists. <<<", '-', '-'));
-                System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Please try again with a different name <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> File with this name already exists. <<<", '-', '-'));
+                System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Please try again with a different name <<<", '-', '-'));
                 crateFile();
             }
         }
@@ -696,51 +779,41 @@ public class VirtualKeyForYourRepositories {
             crateFile();
         }
     }
-
     // deleteFileProtocolMessage() is a method used to separate message from functionality in the deleteFileProtocol()
     private static void deleteFileProtocolMessage(File fileToProcess, double fileSizeInKiloBytes){
         String firstLine = "[ Confirm you want to delete ]";
         String userInputLine = "Please enter your choice here: ";
         String lastLine = "[ Please Enter Your Choice Below ]";
 
+        List<String> mainMessageContentList = new ArrayList<>();
+        mainMessageContentList.add("File name: " + fileToProcess.getName());
+        mainMessageContentList.add("File path: " + fileToProcess.getAbsolutePath());
+        mainMessageContentList.add("File size: " + String.format("%.5f", fileSizeInKiloBytes));
+        mainMessageContentList.add("");
+        mainMessageContentList.add("[1] To CONFIRM deletion");
+        mainMessageContentList.add("[2] To CANCEL deletion");
 
-        System.out.println();
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File name: " + fileToProcess.getName() +  "", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File path: " + fileToProcess.getAbsolutePath() +  "", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "File size: " + String.format("%.5f", fileSizeInKiloBytes)  + " kilobytes" , '|', ' '));
-
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[1] To CONFIRM deletion", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[2] To CANCEL deletion", '|', ' '));
-
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
-        System.out.println();
-
-        //System.out.println(userInputLine); // Input in next line
-        System.out.print(userInputLine); // Input in same line
+        buildMessageContent(firstLine, mainMessageContentList, lastLine, false);
+        buildUserInputLine(userInputLine);
     }
+
     // deleteFileProtocol() organizes the whole thing about deleting the file using deleteFileProtocolMessage() and deleteFileExecution()
     private static void deleteFileProtocol(File fileToProcess){
-        Path path = Paths.get(fileToProcess.getAbsolutePath());
+        Path fileToProcessPath = Paths.get(fileToProcess.getAbsolutePath());
         double fileSize = 0;
         try {
-            fileSize = Files.size(path);
+            fileSize = Files.size(fileToProcessPath);
         }catch (IOException e){
             e.printStackTrace();
             //Make a code to try again
         }
         double fileSizeInKiloBytes = fileSize/2024;
 
-        // deleteFileMessage()
         deleteFileProtocolMessage(fileToProcess, fileSizeInKiloBytes);
 
+        // Setting min and max range
         int min = 1;
         int max = 2;
-
         int option;
 
         //Getting validated option from user
@@ -752,7 +825,6 @@ public class VirtualKeyForYourRepositories {
                 break;
             case 2:
                 fileDetails(fileToProcess);
-                break;
         }
     }
 
@@ -761,10 +833,10 @@ public class VirtualKeyForYourRepositories {
         File fileToDelete = new File(fileToProcess.getAbsolutePath());
         if (fileToDelete.delete()){
             System.out.println();
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Your file: " +  fileToProcess.getName() + " was deleted. <<<", '-', '-'));
+            System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Your file: " +  fileToProcess.getName() + " was deleted. <<<", '-', '-'));
         }else {
             System.out.println();
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Your file: " +  fileToProcess.getName() + " was NOT created. <<<", '-', '-'));
+            System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Your file: " +  fileToProcess.getName() + " was NOT created. <<<", '-', '-'));
         }
     }
 
@@ -791,26 +863,18 @@ public class VirtualKeyForYourRepositories {
 
     // searchFolderMessage() is a method used to separate message from functionality in the searchFolder
     private static void searchFolderMessage(){
-        //Message and console box
         String firstLine = "[ Search Folder ]";
         String userInputLine = "Please enter the term to search: ";
         String lastLine = "[ Please Enter The Search Term Below ]";
 
-        System.out.println();
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+        List<String> mainMessageContentList = new ArrayList<>();
+        mainMessageContentList.add("Rule #1 This search will find only exact match for your search");
+        mainMessageContentList.add("Rule #2 This search is not case sensitive");
+        mainMessageContentList.add("Rule #3 If your file has extension you need to include it in your search");
+        mainMessageContentList.add("Example: abc.txt & ABC.TXT are both valid search terms for a file abc.txt");
 
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Rule #1 This search will find only exact match for your search", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Rule #2 This search is not case sensitive", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Rule #3 If your file has extension you need to include it in your search", '|', ' '));
-        System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Example: abc.txt & ABC.TXT are both valid search terms for a file abc.txt", '|', ' '));
-
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-        System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
-        System.out.println();
-
-        //System.out.println(userInputLine); // Input in next line
-        System.out.print(userInputLine); // Input in same line
+        buildMessageContent(firstLine, mainMessageContentList, lastLine, false);
+        buildUserInputLine(userInputLine);
     }
     // searchFolder() gives user an option to check if a specific file or folder name exists in the directory and if it exists it enters the folder, or it shows file details
     private static void searchFolder(File[] fileListToSearch){
@@ -823,8 +887,8 @@ public class VirtualKeyForYourRepositories {
         boolean foundIt = false;
         if (fileListToSearch == null){
             System.out.println();
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> The folder is empty <<<", '-', '-'));
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Let's go back to the file explorer <<<", '-', '-'));
+            System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> The folder is empty <<<", '-', '-'));
+            System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Let's go back to the file explorer <<<", '-', '-'));
             waitSeconds(2);
             fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
         }else{
@@ -833,9 +897,22 @@ public class VirtualKeyForYourRepositories {
                 if (fileName.equalsIgnoreCase(termToSearch)){
                     // code if file found and change foundIt to true
                     System.out.println();
-                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> You found a file or folder named " + termToSearch + " <<<", '-', '-'));
-                    System.out.println(lineBuilderCenterAligned(consoleBoxWidth, ">>> Lets see whats inside <<<", '-', '-'));
-                    fileDetails(fileListToSearch[i]);
+
+                    if (fileListToSearch[i].isDirectory()){
+                        System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> You found a directory named " + termToSearch + " <<<", '-', '-'));
+                        System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Lets see the details <<<", '-', '-'));
+
+                    }else {
+                        System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> You found a file named " + termToSearch + " <<<", '-', '-'));
+                        System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Lets see the details <<<", '-', '-'));
+                    }
+
+                    if (fileListToSearch[i].isDirectory()){
+                        setCurrentDirectoryPath(fileListToSearch[i].getPath()); // this helps when we exit the details to end up in the same directory as when we did the search
+                        directoryDetails(fileListToSearch[i]);
+                    }else {
+                        fileDetails(fileListToSearch[i]);
+                    }
                     foundIt = true;
                 }
             }
@@ -845,27 +922,19 @@ public class VirtualKeyForYourRepositories {
             String userInputLine = "Please enter your choice here: ";
             String lastLine = "[ Please Enter The Search Term Below ]";
 
-            System.out.println();
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, firstLine, '+', '-'));
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
+            List<String> mainMessageContentList = new ArrayList<>();
+            mainMessageContentList.add("Seams there is no file or folder named: " + termToSearch);
+            mainMessageContentList.add("");
+            mainMessageContentList.add("[1] Search again");
+            mainMessageContentList.add("[2] Exit Search ");
 
-            System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "Seams there is no file or folder named: " + termToSearch, '|', ' '));
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-            System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[1] Search again", '|', ' '));
-            System.out.println(lineBuilderLeftAligned(consoleBoxWidth, "[2] Exit Search ", '|', ' '));
+            buildMessageContent(firstLine, mainMessageContentList, lastLine, false);
+            buildUserInputLine(userInputLine);
 
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, "", '|', ' '));
-            System.out.println(lineBuilderCenterAligned(consoleBoxWidth, lastLine, '+', '-'));
-            System.out.println();
-
-            //System.out.println(userInputLine); // Input in next line
-            System.out.print(userInputLine); // Input in same line
-
+            // Setting min and max range
             int min = 1;
             int max = 2;
-
             int option;
-
             //Getting validated option from user
             option = userInput(min, max);
 
@@ -877,12 +946,7 @@ public class VirtualKeyForYourRepositories {
                     fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
                     break;
             }
-
         }
-        // code here menu and option if the user wants to do another search or go back to the file explorer
-
-
-
     }
 
 
@@ -1032,5 +1096,21 @@ public class VirtualKeyForYourRepositories {
         //scanner.close(); This was causing issues
 
         return userInputString;
+    }
+    private static void deleteDirectoryProtocolMessage(File fileToProcess, double fileSizeInKiloBytes){
+        String firstLine = "[ Confirm you want to delete ]";
+        String userInputLine = "Please enter your choice here: ";
+        String lastLine = "[ Please Enter Your Choice Below ]";
+
+        List<String> mainMessageContentList = new ArrayList<>();
+        mainMessageContentList.add("Directory name: " + fileToProcess.getName());
+        mainMessageContentList.add("Directory path: " + fileToProcess.getAbsolutePath());
+        mainMessageContentList.add("Directory size: " + String.format("%.5f", fileSizeInKiloBytes));
+        mainMessageContentList.add("");
+        mainMessageContentList.add("[1] To CONFIRM deletion");
+        mainMessageContentList.add("[2] To CANCEL deletion");
+
+        buildMessageContent(firstLine, mainMessageContentList, lastLine, false);
+        buildUserInputLine(userInputLine);
     }
 }
