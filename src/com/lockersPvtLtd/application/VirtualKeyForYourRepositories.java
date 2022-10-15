@@ -488,7 +488,7 @@ public class VirtualKeyForYourRepositories {
         switch (option){
             case 1:
                 setCurrentDirectoryPath(getAbsoluteAppDirectoryPath());
-                fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+                fileExplorer(getFileListFromDirectory(getCurrentDirectoryPath()));
                 break;
             case 2:
                 updateAppDirectoryPath();
@@ -525,7 +525,7 @@ public class VirtualKeyForYourRepositories {
         mainMessageContentList.add("["+(++numberingInFileExplorer)+"]" + " Create a file");
         mainMessageContentList.add("["+(++numberingInFileExplorer)+"]" + " Sort file ascending");
         mainMessageContentList.add("["+(++numberingInFileExplorer)+"]" + " Sort file descending");
-        mainMessageContentList.add("["+(++numberingInFileExplorer)+"]" + " Search folder");
+        mainMessageContentList.add("["+(++numberingInFileExplorer)+"]" + " Search directory");
         mainMessageContentList.add("");
         mainMessageContentList.add("Select a file for details and more options:");
         mainMessageContentList.add("");
@@ -573,16 +573,16 @@ public class VirtualKeyForYourRepositories {
             case 3:
                 crateFile();
                 waitSeconds(2);
-                fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+                fileExplorer(getFileListFromDirectory(getCurrentDirectoryPath()));
                 break;
             case 4:
-                fileExplorer(sortAscending(getFileListFromFolder(getCurrentDirectoryPath())));
+                fileExplorer(sortAscending(getFileListFromDirectory(getCurrentDirectoryPath())));
                 break;
             case 5:
-                fileExplorer(sortDescending(getFileListFromFolder(getCurrentDirectoryPath())));
+                fileExplorer(sortDescending(getFileListFromDirectory(getCurrentDirectoryPath())));
                 break;
             case 6:
-                searchFolder(getFileListFromFolder(getCurrentDirectoryPath()));
+                searchDirectory(getFileListFromDirectory(getCurrentDirectoryPath()));
                 break;
         }
 
@@ -649,12 +649,12 @@ public class VirtualKeyForYourRepositories {
                 mainMenu();
                 break;
             case 2:
-                fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+                fileExplorer(getFileListFromDirectory(getCurrentDirectoryPath()));
                 break;
             case 3:
                 deleteFileProtocol(fileToProcess);
                 waitSeconds(2);
-                fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+                fileExplorer(getFileListFromDirectory(getCurrentDirectoryPath()));
                 break;
         }
     }
@@ -714,12 +714,12 @@ public class VirtualKeyForYourRepositories {
         Path currentDirectoryPath = Paths.get(getCurrentDirectoryPath());
         Path parentPath = currentDirectoryPath.getParent();
         setCurrentDirectoryPath(parentPath.toString());
-        fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+        fileExplorer(getFileListFromDirectory(getCurrentDirectoryPath()));
     }
     // goIntoDirectory()
     private static void goIntoDirectory(){
         //We need to change the currentDirectoryPath before calling this method, since this method is just calling the fileExplorer
-        fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+        fileExplorer(getFileListFromDirectory(getCurrentDirectoryPath()));
     }
 
 
@@ -758,7 +758,7 @@ public class VirtualKeyForYourRepositories {
                     System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Your file: " +  file.getName() + " was created. <<<", '-', '-'));
                     System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> The file path is: " + file.getAbsolutePath() + " <<<", '-', '-'));
                     waitSeconds(2);
-                    fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+                    fileExplorer(getFileListFromDirectory(getCurrentDirectoryPath()));
                 }else {
                     //If you can't create file
                     System.out.println();
@@ -844,7 +844,7 @@ public class VirtualKeyForYourRepositories {
 
 
     // getFileListFromFolder lists files and folders from the currentDirectoryPath and returns an array of Files
-    private static File[] getFileListFromFolder(String pathToFolder){
+    private static File[] getFileListFromDirectory(String pathToFolder){
         File directoryPath = new File(pathToFolder);
         File filesList[] = directoryPath.listFiles();
         return filesList;
@@ -862,7 +862,7 @@ public class VirtualKeyForYourRepositories {
     }
 
     // searchFolderMessage() is a method used to separate message from functionality in the searchFolder
-    private static void searchFolderMessage(){
+    private static void searchDirectoryMessage(){
         String firstLine = "[ Search Folder ]";
         String userInputLine = "Please enter the term to search: ";
         String lastLine = "[ Please Enter The Search Term Below ]";
@@ -877,9 +877,9 @@ public class VirtualKeyForYourRepositories {
         buildUserInputLine(userInputLine);
     }
     // searchFolder() gives user an option to check if a specific file or folder name exists in the directory and if it exists it enters the folder, or it shows file details
-    private static void searchFolder(File[] fileListToSearch){
+    private static void searchDirectory(File[] fileListToSearch){
 
-        searchFolderMessage();
+        searchDirectoryMessage();
 
         Scanner scanner = new Scanner(System.in);
         String termToSearch =scanner.next();
@@ -890,7 +890,7 @@ public class VirtualKeyForYourRepositories {
             System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> The folder is empty <<<", '-', '-'));
             System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Let's go back to the file explorer <<<", '-', '-'));
             waitSeconds(2);
-            fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+            fileExplorer(getFileListFromDirectory(getCurrentDirectoryPath()));
         }else{
             for (int i = 0; i < fileListToSearch.length; i++) {
                 String fileName = fileListToSearch[i].getName();
@@ -935,15 +935,15 @@ public class VirtualKeyForYourRepositories {
             int min = 1;
             int max = 2;
             int option;
-            //Getting validated option from user
+            //Getting validated option from user successful
             option = userInput(min, max);
 
             switch (option) {
                 case 1:
-                    searchFolder(getFileListFromFolder(getCurrentDirectoryPath()));
+                    searchDirectory(getFileListFromDirectory(getCurrentDirectoryPath()));
                     break;
                 case 2:
-                    fileExplorer(getFileListFromFolder(getCurrentDirectoryPath()));
+                    fileExplorer(getFileListFromDirectory(getCurrentDirectoryPath()));
                     break;
             }
         }
