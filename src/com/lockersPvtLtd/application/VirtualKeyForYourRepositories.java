@@ -678,18 +678,24 @@ public class VirtualKeyForYourRepositories {
         buildUserInputLine(userInputLine);
     }
     // directoryDetails() lists the details of a selected directory and offers an option to enter the directory
-    private static void directoryDetails(File fileToProcess){
-        Path fileToProcessPath = Paths.get(fileToProcess.getAbsolutePath());
-        double fileSize = 0;
-        try {
-            fileSize = Files.size(fileToProcessPath);
-        }catch (IOException e){
-            e.printStackTrace();
-            //Make a code to try again
-        }
-        double fileSizeInKiloBytes = fileSize/2024;
+    private static void directoryDetails(File directoryToProcess){
+        Path fileToProcessPath = Paths.get(directoryToProcess.getAbsolutePath());
+        double directorySize = 0;
 
-        directoryDetailsMessage(fileToProcess, fileSizeInKiloBytes);
+        File[] filesInDirectory = directoryToProcess.listFiles();
+        int numberOfFilesInDirectory = filesInDirectory.length;
+
+        for (int i = 0; i < numberOfFilesInDirectory; i++){
+            if (filesInDirectory[i].isFile()){
+                directorySize += filesInDirectory[i].length();
+            }else{
+                directoryDetails(directoryToProcess);
+            }
+        }
+
+        double fileSizeInKiloBytes = directorySize/2024;
+
+        directoryDetailsMessage(directoryToProcess, fileSizeInKiloBytes);
 
         // Setting min and max range
         int min = 1;
