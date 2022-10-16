@@ -613,7 +613,7 @@ public class VirtualKeyForYourRepositories {
         List<String> mainMessageContentList = new ArrayList<>();
         mainMessageContentList.add("File name: " + fileToProcess.getName());
         mainMessageContentList.add("File path: " + fileToProcess.getAbsolutePath());
-        mainMessageContentList.add("File size: " + String.format("%.5f", fileSizeInKiloBytes)  + " kilobytes");
+        mainMessageContentList.add("File size: " + String.format("%.2f", fileSizeInKiloBytes)  + " kilobytes");
         mainMessageContentList.add("");
         mainMessageContentList.add("[1]" + " Go to Main Menu");
         mainMessageContentList.add("[2]" + " Exit file details");
@@ -632,7 +632,7 @@ public class VirtualKeyForYourRepositories {
             e.printStackTrace();
             //Make a code to try again
         }
-        double fileSizeInKiloBytes = fileSize/2024;
+        double fileSizeInKiloBytes = fileSize/1024;
 
         fileDetailsMessage(fileToProcess, fileSizeInKiloBytes);
 
@@ -668,7 +668,7 @@ public class VirtualKeyForYourRepositories {
         List<String> mainMessageContentList = new ArrayList<>();
         mainMessageContentList.add("Directory name: " + fileToProcess.getName());
         mainMessageContentList.add("Directory path: " + fileToProcess.getAbsolutePath());
-        mainMessageContentList.add("Directory size: " + String.format("%.5f", fileSizeInKiloBytes)  + " kilobytes");
+        mainMessageContentList.add("Directory size: " + String.format("%.2f", fileSizeInKiloBytes)  + " kilobytes");
         mainMessageContentList.add("");
         mainMessageContentList.add("[1]" + " Go to Main Menu");
         mainMessageContentList.add("[2]" + " Exit directory details");
@@ -679,21 +679,11 @@ public class VirtualKeyForYourRepositories {
     }
     // directoryDetails() lists the details of a selected directory and offers an option to enter the directory
     private static void directoryDetails(File directoryToProcess){
-        Path fileToProcessPath = Paths.get(directoryToProcess.getAbsolutePath());
         double directorySize = 0;
 
-        File[] filesInDirectory = directoryToProcess.listFiles();
-        int numberOfFilesInDirectory = filesInDirectory.length;
+        directorySize = directorySizeCalculator(directoryToProcess);//***********
 
-        for (int i = 0; i < numberOfFilesInDirectory; i++){
-            if (filesInDirectory[i].isFile()){
-                directorySize += filesInDirectory[i].length();
-            }else{
-                directoryDetails(directoryToProcess);
-            }
-        }
-
-        double fileSizeInKiloBytes = directorySize/2024;
+        double fileSizeInKiloBytes = directorySize/1024;
 
         directoryDetailsMessage(directoryToProcess, fileSizeInKiloBytes);
 
@@ -715,6 +705,27 @@ public class VirtualKeyForYourRepositories {
                 goIntoDirectory();
         }
     }
+
+
+    // directorySizeCalculator() calculates the size of all files and including files in sub-folders
+    private static double directorySizeCalculator(File directoryToProcess) {
+        long directorySize = 0;
+        File[] filesInDirectory = directoryToProcess.listFiles();
+
+        int count = filesInDirectory.length;
+
+        for (int i = 0; i < count; i++) {
+            if (filesInDirectory[i].isFile()) {
+                directorySize += filesInDirectory[i].length();
+            }
+            else {
+                directorySize += directorySizeCalculator(filesInDirectory[i]);
+            }
+        }
+        return directorySize;
+    }
+
+
     // goToParentDirectory()
     private static void goToParentDirectory(){
         Path currentDirectoryPath = Paths.get(getCurrentDirectoryPath());
