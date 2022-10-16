@@ -613,7 +613,18 @@ public class VirtualKeyForYourRepositories {
         List<String> mainMessageContentList = new ArrayList<>();
         mainMessageContentList.add("File name: " + fileToProcess.getName());
         mainMessageContentList.add("File path: " + fileToProcess.getAbsolutePath());
-        mainMessageContentList.add("File size: " + String.format("%.2f", fileSizeInKiloBytes)  + " kilobytes");
+
+        // Decision-making and conversion of file size
+        if (fileSizeInKiloBytes < 1024){
+            mainMessageContentList.add("File size: " + String.format("%.2f", fileSizeInKiloBytes)  + " kilobytes");
+        }else if (fileSizeInKiloBytes < 1048576){
+            double fileSizeInMB = fileSizeInKiloBytes / 1024;
+            mainMessageContentList.add("File size: " + String.format("%.2f", fileSizeInMB)  + " megabyte (MB)");
+        }else {
+            double fileSizeInGB = (fileSizeInKiloBytes/1024)/1024;
+            mainMessageContentList.add("File size: " + String.format("%.2f", fileSizeInGB)  + " gigabyte (GB)");
+        }
+
         mainMessageContentList.add("");
         mainMessageContentList.add("[1]" + " Go to Main Menu");
         mainMessageContentList.add("[2]" + " Exit file details");
@@ -668,7 +679,18 @@ public class VirtualKeyForYourRepositories {
         List<String> mainMessageContentList = new ArrayList<>();
         mainMessageContentList.add("Directory name: " + fileToProcess.getName());
         mainMessageContentList.add("Directory path: " + fileToProcess.getAbsolutePath());
-        mainMessageContentList.add("Directory size: " + String.format("%.2f", fileSizeInKiloBytes)  + " kilobytes");
+
+        // Decision-making and conversion of directory size
+        if (fileSizeInKiloBytes < 1024){
+            mainMessageContentList.add("File size: " + String.format("%.2f", fileSizeInKiloBytes)  + " kilobytes");
+        }else if (fileSizeInKiloBytes < 1048576){
+            double fileSizeInMB = fileSizeInKiloBytes / 1024;
+            mainMessageContentList.add("File size: " + String.format("%.2f", fileSizeInMB)  + " megabyte (MB)");
+        }else {
+            double fileSizeInGB = (fileSizeInKiloBytes/1024)/1024;
+            mainMessageContentList.add("File size: " + String.format("%.2f", fileSizeInGB)  + " gigabyte (GB)");
+        }
+
         mainMessageContentList.add("");
         mainMessageContentList.add("[1]" + " Go to Main Menu");
         mainMessageContentList.add("[2]" + " Exit directory details");
@@ -709,7 +731,7 @@ public class VirtualKeyForYourRepositories {
 
     // directorySizeCalculator() calculates the size of all files and including files in sub-folders
     private static double directorySizeCalculator(File directoryToProcess) {
-        long directorySize = 0;
+        double directorySize = 0;
         File[] filesInDirectory = directoryToProcess.listFiles();
 
         int count = filesInDirectory.length;
@@ -916,11 +938,11 @@ public class VirtualKeyForYourRepositories {
                     System.out.println();
 
                     if (fileListToSearch[i].isDirectory()){
-                        System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> You found a directory named " + termToSearch + " <<<", '-', '-'));
+                        System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> You found a directory named: " + termToSearch + " <<<", '-', '-'));
                         System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Lets see the details <<<", '-', '-'));
 
                     }else {
-                        System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> You found a file named " + termToSearch + " <<<", '-', '-'));
+                        System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> You found a file named: " + termToSearch + " <<<", '-', '-'));
                         System.out.println(lineBuilderCenterAligned(getConsoleBoxWidth(), ">>> Lets see the details <<<", '-', '-'));
                     }
 
