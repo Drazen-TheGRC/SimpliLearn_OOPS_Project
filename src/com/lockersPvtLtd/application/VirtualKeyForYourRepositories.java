@@ -254,9 +254,10 @@ public class VirtualKeyForYourRepositories {
         String lastLine = "[ Now we need to past or enter the path down below ]";
 
         List<String> mainMessageContentList = new ArrayList<>();
-        mainMessageContentList.add(" Step 1 > Create a folder on your PC and give it one word name");
-        mainMessageContentList.add(" Step 2 > Open the folder and click on the folder icon in the address bar ");
-        mainMessageContentList.add(" Step 3 > Copy the address link so you can past it in the next step");
+        mainMessageContentList.add(" Step 1 > Create a directory on your PC and give it no-space name, e.g. MyDirectory");
+        mainMessageContentList.add(" Step 2 > Make sure your directory path has no spaces in it");
+        mainMessageContentList.add(" Step 3 > Open the directory and click on the directory icon in the address bar");
+        mainMessageContentList.add(" Step 4 > Copy the address link so you can past it in the next step");
 
         buildMessageContent(firstLine, mainMessageContentList, lastLine, false);
         buildUserInputLine(userInputLine);
@@ -682,13 +683,13 @@ public class VirtualKeyForYourRepositories {
 
         // Decision-making and conversion of directory size
         if (fileSizeInKiloBytes < 1024){
-            mainMessageContentList.add("File size: " + String.format("%.2f", fileSizeInKiloBytes)  + " kilobytes");
+            mainMessageContentList.add("Directory size: " + String.format("%.2f", fileSizeInKiloBytes)  + " kilobytes");
         }else if (fileSizeInKiloBytes < 1048576){
             double fileSizeInMB = fileSizeInKiloBytes / 1024;
-            mainMessageContentList.add("File size: " + String.format("%.2f", fileSizeInMB)  + " megabyte (MB)");
+            mainMessageContentList.add("Directory size: " + String.format("%.2f", fileSizeInMB)  + " megabyte (MB)");
         }else {
             double fileSizeInGB = (fileSizeInKiloBytes/1024)/1024;
-            mainMessageContentList.add("File size: " + String.format("%.2f", fileSizeInGB)  + " gigabyte (GB)");
+            mainMessageContentList.add("Directory size: " + String.format("%.2f", fileSizeInGB)  + " gigabyte (GB)");
         }
 
         mainMessageContentList.add("");
