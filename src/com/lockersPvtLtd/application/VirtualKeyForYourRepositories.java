@@ -21,7 +21,7 @@ public class VirtualKeyForYourRepositories {
     // Other global variables
     static String appName = "Virtual Key For Your Repositories";
     static int consoleBoxWidth = 100; //It is the width of the console text box, suggested minimum is 90
-    static String gitHubAppLink = "https://github.com/Drazen-BBG/SimpliLearn_OOPS_Project";
+    static String gitHubAppLink = "https://github.com/Drazen-TheGRC/SimpliLearn_OOPS_Project";
     static String developerName = "Drazen Drinic";
     static String developerLinkedin = "https://www.linkedin.com/in/drazendrinic/";
     // numberingInFileExplorer is reset to 0 and then used to number each option for the user
